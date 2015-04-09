@@ -17,7 +17,6 @@ using System.Net.Sockets;
 using System.Threading;
 
 
-
 namespace Shat
 {
     public partial class Form1 : Form, IShatCallback
