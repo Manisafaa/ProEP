@@ -1,0 +1,12 @@
+C:\Users\Gustavo\Documents\Faculdade\Books\ProEP\Cerver\Cerver\obj\Debug\Cerver.csprojResolveAssemblyReference.cache
+C:\Users\Gustavo\Documents\Faculdade\Books\ProEP\Cerver\Cerver\bin\Debug\Cerver.dll.config
+C:\Users\Gustavo\Documents\Faculdade\Books\ProEP\Cerver\Cerver\bin\Debug\Cerver.dll
+C:\Users\Gustavo\Documents\Faculdade\Books\ProEP\Cerver\Cerver\bin\Debug\Cerver.pdb
+C:\Users\Gustavo\Documents\Faculdade\Books\ProEP\Cerver\Cerver\obj\Debug\Cerver.dll
+C:\Users\Gustavo\Documents\Faculdade\Books\ProEP\Cerver\Cerver\obj\Debug\Cerver.pdb
+C:\Users\Gustavo\Dropbox\ProEP\CS project\Cerver\Cerver\bin\Debug\Cerver.dll.config
+C:\Users\Gustavo\Dropbox\ProEP\CS project\Cerver\Cerver\bin\Debug\Cerver.dll
+C:\Users\Gustavo\Dropbox\ProEP\CS project\Cerver\Cerver\bin\Debug\Cerver.pdb
+C:\Users\Gustavo\Dropbox\ProEP\CS project\Cerver\Cerver\obj\Debug\Cerver.csprojResolveAssemblyReference.cache
+C:\Users\Gustavo\Dropbox\ProEP\CS project\Cerver\Cerver\obj\Debug\Cerver.dll
+C:\Users\Gustavo\Dropbox\ProEP\CS project\Cerver\Cerver\obj\Debug\Cerver.pdb

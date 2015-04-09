@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="797f2a00-2de9-4ef4-b0b2-8ed88c56ae2a" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:8733/Design_Time_Addresses/Cerver/Service1/" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="item.wsdl" MetadataType="Wsdl" ID="f8c99008-5a5f-4ac5-9b52-a0cac9c0bcae" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/Cerver/Service1/?wsdl=wsdl0" />
+    <MetadataFile FileName="item.disco" MetadataType="Disco" ID="07c7f8a3-f784-4d2e-9a5f-a593e15ebe56" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/Cerver/Service1/?disco" />
+    <MetadataFile FileName="item.xsd" MetadataType="Schema" ID="58540d85-aa66-4161-a5e5-51aa4daa038a" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/Cerver/Service1/?xsd=xsd2" />
+    <MetadataFile FileName="Shat.wsdl" MetadataType="Wsdl" ID="4864ba53-0d6c-4cf2-9e65-77a426b7e2db" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/Cerver/Service1/?wsdl" />
+    <MetadataFile FileName="item1.xsd" MetadataType="Schema" ID="6b9376d3-c3c4-4140-bf5a-2922b5b3ba85" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/Cerver/Service1/?xsd=xsd1" />
+    <MetadataFile FileName="item2.xsd" MetadataType="Schema" ID="d456012c-47b8-4803-8a8f-d6919059a323" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/Cerver/Service1/?xsd=xsd0" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

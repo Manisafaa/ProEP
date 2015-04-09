@@ -1,0 +1,18 @@
+C:\Users\Gustavo\Documents\Faculdade\Books\ProEP\Shat\Shat\bin\Debug\Shat.exe.config
+C:\Users\Gustavo\Documents\Faculdade\Books\ProEP\Shat\Shat\bin\Debug\Shat.exe
+C:\Users\Gustavo\Documents\Faculdade\Books\ProEP\Shat\Shat\bin\Debug\Shat.pdb
+C:\Users\Gustavo\Documents\Faculdade\Books\ProEP\Shat\Shat\obj\Debug\Shat.csprojResolveAssemblyReference.cache
+C:\Users\Gustavo\Documents\Faculdade\Books\ProEP\Shat\Shat\obj\Debug\Shat.Form1.resources
+C:\Users\Gustavo\Documents\Faculdade\Books\ProEP\Shat\Shat\obj\Debug\Shat.Properties.Resources.resources
+C:\Users\Gustavo\Documents\Faculdade\Books\ProEP\Shat\Shat\obj\Debug\Shat.csproj.GenerateResource.Cache
+C:\Users\Gustavo\Documents\Faculdade\Books\ProEP\Shat\Shat\obj\Debug\Shat.exe
+C:\Users\Gustavo\Documents\Faculdade\Books\ProEP\Shat\Shat\obj\Debug\Shat.pdb
+C:\Users\Gustavo\Dropbox\ProEP\CS project\Shat\Shat\bin\Debug\Shat.exe.config
+C:\Users\Gustavo\Dropbox\ProEP\CS project\Shat\Shat\obj\Debug\Shat.exe
+C:\Users\Gustavo\Dropbox\ProEP\CS project\Shat\Shat\obj\Debug\Shat.pdb
+C:\Users\Gustavo\Dropbox\ProEP\CS project\Shat\Shat\bin\Debug\Shat.exe
+C:\Users\Gustavo\Dropbox\ProEP\CS project\Shat\Shat\bin\Debug\Shat.pdb
+C:\Users\Gustavo\Dropbox\ProEP\CS project\Shat\Shat\obj\Debug\Shat.csprojResolveAssemblyReference.cache
+C:\Users\Gustavo\Dropbox\ProEP\CS project\Shat\Shat\obj\Debug\Shat.Form1.resources
+C:\Users\Gustavo\Dropbox\ProEP\CS project\Shat\Shat\obj\Debug\Shat.Properties.Resources.resources
+C:\Users\Gustavo\Dropbox\ProEP\CS project\Shat\Shat\obj\Debug\Shat.csproj.GenerateResource.Cache

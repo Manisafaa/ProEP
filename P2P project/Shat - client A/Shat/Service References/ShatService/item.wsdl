@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="Cerver" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="Cerver" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="Cerver/Imports">
+      <xsd:import schemaLocation="http://localhost:8733/Design_Time_Addresses/Cerver/Service1/?xsd=xsd0" namespace="Cerver" />
+      <xsd:import schemaLocation="http://localhost:8733/Design_Time_Addresses/Cerver/Service1/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:8733/Design_Time_Addresses/Cerver/Service1/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Cerver" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IShat_GetLastMessages_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetLastMessages" />
+  </wsdl:message>
+  <wsdl:message name="IShat_GetLastMessages_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetLastMessagesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IShat_SendMessage_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendMessage" />
+  </wsdl:message>
+  <wsdl:message name="IShat_Unsubscribe_InputMessage">
+    <wsdl:part name="parameters" element="tns:Unsubscribe" />
+  </wsdl:message>
+  <wsdl:message name="IShat_BroadcastMessage_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:BroadcastMessage" />
+  </wsdl:message>
+  <wsdl:portType name="IShat">
+    <wsdl:operation name="GetLastMessages">
+      <wsdl:input wsaw:Action="Cerver/IShat/GetLastMessages" message="tns:IShat_GetLastMessages_InputMessage" />
+      <wsdl:output wsaw:Action="Cerver/IShat/GetLastMessagesResponse" message="tns:IShat_GetLastMessages_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendMessage">
+      <wsdl:input wsaw:Action="Cerver/IShat/SendMessage" message="tns:IShat_SendMessage_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Unsubscribe">
+      <wsdl:input wsaw:Action="Cerver/IShat/Unsubscribe" message="tns:IShat_Unsubscribe_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="BroadcastMessage">
+      <wsdl:output wsaw:Action="Cerver/IShat/BroadcastMessage" message="tns:IShat_BroadcastMessage_OutputCallbackMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>
