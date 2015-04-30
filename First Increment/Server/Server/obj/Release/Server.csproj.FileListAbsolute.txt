@@ -1,0 +1,5 @@
+C:\Users\Gustavo\Dropbox\ProEP\First Increment\Server\Server\bin\Release\Server.dll.config
+C:\Users\Gustavo\Dropbox\ProEP\First Increment\Server\Server\bin\Release\Server.dll
+C:\Users\Gustavo\Dropbox\ProEP\First Increment\Server\Server\bin\Release\Server.pdb
+C:\Users\Gustavo\Dropbox\ProEP\First Increment\Server\Server\obj\Release\Server.dll
+C:\Users\Gustavo\Dropbox\ProEP\First Increment\Server\Server\obj\Release\Server.pdb
