@@ -7,3 +7,6 @@ C:\Users\Gustavo\Dropbox\ProEP\ClientForm\ClientForm\obj\Debug\ClientForm.Proper
 C:\Users\Gustavo\Dropbox\ProEP\ClientForm\ClientForm\obj\Debug\ClientForm.csproj.GenerateResource.Cache
 C:\Users\Gustavo\Dropbox\ProEP\ClientForm\ClientForm\obj\Debug\ClientForm.exe
 C:\Users\Gustavo\Dropbox\ProEP\ClientForm\ClientForm\obj\Debug\ClientForm.pdb
+C:\Users\Gustavo\Desktop\ProEP\ClientForm\ClientForm\bin\Debug\ClientForm.exe.config
+C:\Users\Gustavo\Desktop\ProEP\ClientForm\ClientForm\obj\Debug\ClientForm.exe
+C:\Users\Gustavo\Desktop\ProEP\ClientForm\ClientForm\obj\Debug\ClientForm.pdb
