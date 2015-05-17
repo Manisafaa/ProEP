@@ -28,7 +28,7 @@ namespace ClientForm.ChatServer {
         private object callbackField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int idField;
+        private System.Guid idField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string usernameField;
@@ -57,7 +57,7 @@ namespace ClientForm.ChatServer {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public int id {
+        public System.Guid id {
             get {
                 return this.idField;
             }
@@ -158,10 +158,10 @@ namespace ClientForm.ChatServer {
     public interface IChat {
         
         [System.ServiceModel.OperationContractAttribute(Action="Server/IChat/Subscribe", ReplyAction="Server/IChat/SubscribeResponse")]
-        ClientForm.ChatServer.User Subscribe(string username);
+        ClientForm.ChatServer.User Subscribe(System.Guid id, string username);
         
         [System.ServiceModel.OperationContractAttribute(Action="Server/IChat/Subscribe", ReplyAction="Server/IChat/SubscribeResponse")]
-        System.Threading.Tasks.Task<ClientForm.ChatServer.User> SubscribeAsync(string username);
+        System.Threading.Tasks.Task<ClientForm.ChatServer.User> SubscribeAsync(System.Guid id, string username);
         
         [System.ServiceModel.OperationContractAttribute(Action="Server/IChat/GetLastMessages", ReplyAction="Server/IChat/GetLastMessagesResponse")]
         ClientForm.ChatServer.ChatMessage[] GetLastMessages();
@@ -170,28 +170,28 @@ namespace ClientForm.ChatServer {
         System.Threading.Tasks.Task<ClientForm.ChatServer.ChatMessage[]> GetLastMessagesAsync();
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="Server/IChat/SendPublicMessage")]
-        void SendPublicMessage(int from, string message);
+        void SendPublicMessage(System.Guid from, string message);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="Server/IChat/SendPublicMessage")]
-        System.Threading.Tasks.Task SendPublicMessageAsync(int from, string message);
+        System.Threading.Tasks.Task SendPublicMessageAsync(System.Guid from, string message);
         
         [System.ServiceModel.OperationContractAttribute(Action="Server/IChat/ConnectWithUser", ReplyAction="Server/IChat/ConnectWithUserResponse")]
-        ClientForm.ChatServer.User ConnectWithUser(int from, int to);
+        ClientForm.ChatServer.User ConnectWithUser(System.Guid from, System.Guid to);
         
         [System.ServiceModel.OperationContractAttribute(Action="Server/IChat/ConnectWithUser", ReplyAction="Server/IChat/ConnectWithUserResponse")]
-        System.Threading.Tasks.Task<ClientForm.ChatServer.User> ConnectWithUserAsync(int from, int to);
+        System.Threading.Tasks.Task<ClientForm.ChatServer.User> ConnectWithUserAsync(System.Guid from, System.Guid to);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="Server/IChat/SendPrivateMessage")]
-        void SendPrivateMessage(int from, string message, int to);
+        void SendPrivateMessage(System.Guid from, string message, System.Guid to);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="Server/IChat/SendPrivateMessage")]
-        System.Threading.Tasks.Task SendPrivateMessageAsync(int from, string message, int to);
+        System.Threading.Tasks.Task SendPrivateMessageAsync(System.Guid from, string message, System.Guid to);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="Server/IChat/Unsubscribe")]
-        void Unsubscribe(int id);
+        void Unsubscribe(System.Guid id);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="Server/IChat/Unsubscribe")]
-        System.Threading.Tasks.Task UnsubscribeAsync(int id);
+        System.Threading.Tasks.Task UnsubscribeAsync(System.Guid id);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -235,12 +235,12 @@ namespace ClientForm.ChatServer {
                 base(callbackInstance, binding, remoteAddress) {
         }
         
-        public ClientForm.ChatServer.User Subscribe(string username) {
-            return base.Channel.Subscribe(username);
+        public ClientForm.ChatServer.User Subscribe(System.Guid id, string username) {
+            return base.Channel.Subscribe(id, username);
         }
         
-        public System.Threading.Tasks.Task<ClientForm.ChatServer.User> SubscribeAsync(string username) {
-            return base.Channel.SubscribeAsync(username);
+        public System.Threading.Tasks.Task<ClientForm.ChatServer.User> SubscribeAsync(System.Guid id, string username) {
+            return base.Channel.SubscribeAsync(id, username);
         }
         
         public ClientForm.ChatServer.ChatMessage[] GetLastMessages() {
@@ -251,35 +251,35 @@ namespace ClientForm.ChatServer {
             return base.Channel.GetLastMessagesAsync();
         }
         
-        public void SendPublicMessage(int from, string message) {
+        public void SendPublicMessage(System.Guid from, string message) {
             base.Channel.SendPublicMessage(from, message);
         }
         
-        public System.Threading.Tasks.Task SendPublicMessageAsync(int from, string message) {
+        public System.Threading.Tasks.Task SendPublicMessageAsync(System.Guid from, string message) {
             return base.Channel.SendPublicMessageAsync(from, message);
         }
         
-        public ClientForm.ChatServer.User ConnectWithUser(int from, int to) {
+        public ClientForm.ChatServer.User ConnectWithUser(System.Guid from, System.Guid to) {
             return base.Channel.ConnectWithUser(from, to);
         }
         
-        public System.Threading.Tasks.Task<ClientForm.ChatServer.User> ConnectWithUserAsync(int from, int to) {
+        public System.Threading.Tasks.Task<ClientForm.ChatServer.User> ConnectWithUserAsync(System.Guid from, System.Guid to) {
             return base.Channel.ConnectWithUserAsync(from, to);
         }
         
-        public void SendPrivateMessage(int from, string message, int to) {
+        public void SendPrivateMessage(System.Guid from, string message, System.Guid to) {
             base.Channel.SendPrivateMessage(from, message, to);
         }
         
-        public System.Threading.Tasks.Task SendPrivateMessageAsync(int from, string message, int to) {
+        public System.Threading.Tasks.Task SendPrivateMessageAsync(System.Guid from, string message, System.Guid to) {
             return base.Channel.SendPrivateMessageAsync(from, message, to);
         }
         
-        public void Unsubscribe(int id) {
+        public void Unsubscribe(System.Guid id) {
             base.Channel.Unsubscribe(id);
         }
         
-        public System.Threading.Tasks.Task UnsubscribeAsync(int id) {
+        public System.Threading.Tasks.Task UnsubscribeAsync(System.Guid id) {
             return base.Channel.UnsubscribeAsync(id);
         }
     }

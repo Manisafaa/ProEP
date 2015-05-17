@@ -11,17 +11,21 @@ namespace Server
     public class Chat : IChat
     {
         List<ChatMessage> lastMessages = new List<ChatMessage>();
-        List<User> users = new List<User>();
 
-        public User Subscribe(string username)
+        //Kyrill: List replaced by dictionary to use Guid
+        //List<User> users = new List<User>();
+        Dictionary<Guid, User> users = new Dictionary<Guid, User>();
+        public User Subscribe(Guid id, string username)
         {
             User new_user = new User();
 
-            new_user.id = users.Count;
+            //Kyrill: List replaced by dictionary to use Guid
+            new_user.id = id;//users.Count;
             new_user.username = username;
             new_user.callback = OperationContext.Current.GetCallbackChannel<IChatCallback>();
 
-            users.Add(new_user);
+            //Kyrill: List replaced by dictionary to use Guid
+            users.Add(new_user.id, new_user);
 
             return new_user;
         }
@@ -31,16 +35,26 @@ namespace Server
             return lastMessages;
         }
 
-        public void SendPublicMessage(int from, string message)
+        public void SendPublicMessage(Guid from, string message)
         {
             ChatMessage new_message = new ChatMessage();
             new_message.user = users[from];
             new_message.text = message;
 
+            //Kyrill: List replaced by dictionary to use Guid
+            /*
             for (int i = 0; i < users.Count; ++i)
             {
                 if (users[i].callback != null)
                     users[i].callback.BroadcastMessage(new_message);
+            }*/
+
+
+            foreach (var dictValue in users)
+            {
+                User user = dictValue.Value;
+                if (user.callback != null)
+                    user.callback.BroadcastMessage(new_message);
             }
 
             if (lastMessages.Count > 5)
@@ -48,14 +62,18 @@ namespace Server
             lastMessages.Add(new_message);
         }
 
-        public User ConnectWithUser(int from, int to)
+        public User ConnectWithUser(Guid from, Guid to)
         {
             User from_user = new User();
-
+            //Kyrill: List replaced by dictionary to use Guid
+/*
             for (int i = 0; i < users.Count; ++i) {
                 if (from == users[i].id)
                     from_user = users[i];
             }
+            */
+            if (users[from] != null)
+                from_user = users[from];
 
             if (users[to].callback != null)
             {
@@ -66,7 +84,7 @@ namespace Server
             return null;
         }
 
-        public void SendPrivateMessage(int from, string message, int to)
+        public void SendPrivateMessage(Guid from, string message, Guid to)
         {
             ChatMessage new_message = new ChatMessage();
             new_message.user = users[from];
@@ -86,7 +104,7 @@ namespace Server
 
         }
 
-        public void Unsubscribe(int id)
+        public void Unsubscribe(Guid id)
         {
             if (users[id].callback == OperationContext.Current.GetCallbackChannel<IChatCallback>())
                 users[id].callback = null;

@@ -50,7 +50,8 @@ namespace ClientForm
 
         public void BroadcastMessage(ChatMessage message)
         {
-            listChatroom.Items.Add(message.user.username + " (#" + message.user.id + "): " + message.text);
+            //Kyrill: int id replaced by Guid id
+            listChatroom.Items.Add(message.user.username + " (#" + message.user.id.ToString() + "): " + message.text);
         }
 
         public void DeliverMessage(ChatMessage message)
@@ -79,7 +80,8 @@ namespace ClientForm
 
             listOfConversations.Items.Insert(0, private_list[index].username);
 
-            string new_message = message.user.username + " (#" + message.user.id + "): " + message.text;
+            //Kyrill: int id replaced by Guid id
+            string new_message = message.user.username + " (#" + message.user.id.ToString() + "): " + message.text;
             conversations[index].Add(new_message);
 
             if (selected_conversation == index)
@@ -104,10 +106,11 @@ namespace ClientForm
             Type contract = typeof(IPrivateChat);
             NetPeerTcpBinding binding = new NetPeerTcpBinding("BindingUnsecure");
             Uri address;
-            if (self.id < user.id)
+            //Kyrill: int id replaced by Guid id, so self.id < user.id is not possible anymore
+            //if (self.id < user.id)
                 address = new Uri("net.p2p://PrivateChat/" + self.id + "x" + user.id);
-            else
-                address = new Uri("net.p2p://PrivateChat/" + user.id + "x" + self.id);
+            //else
+            //    address = new Uri("net.p2p://PrivateChat/" + user.id + "x" + self.id);
 
             hosts.Add(new ServiceHost(this));
             hosts[index].AddServiceEndpoint(contract, binding, address);
@@ -122,7 +125,8 @@ namespace ClientForm
             return true;
         }
 
-        public void SendMessage(int id, string message)
+        //Kyrill: int id replaced by Guid id
+        public void SendMessage(Guid id, string message)
         {
             int index = -1;
 
@@ -142,8 +146,9 @@ namespace ClientForm
             listOfConversations.Items.Remove(private_list[index].username);
             listOfConversations.Items.Insert(0, private_list[index].username);
 
+            //Kyrill: int id replaced by Guid id
             string new_message = private_list[index].username +
-                                 " (#" + private_list[index].id + "): " + message;
+                                 " (#" + private_list[index].id.ToString() + "): " + message;
             conversations[index].Add(new_message);
 
             if (selected_conversation == index)
@@ -157,12 +162,15 @@ namespace ClientForm
             String selected_message = listChatroom.SelectedItem.ToString();
 
             bool start_counting = false;
-            int id = 0;
+            //Kyrill: int id replaced by Guid id
+            Guid id = Guid.NewGuid();
             for (int i = 0; i < selected_message.Count(); ++i) {
                 if (selected_message[i] == ')')
                     break;
-                if (start_counting == true)
-                    id = 10*id + Convert.ToInt16(selected_message[i].ToString());
+
+                //Kyrill: what is this for ?
+                //if (start_counting == true)
+                  //  id = 10*id + Convert.ToInt16(selected_message[i].ToString());
                 if (selected_message[i] == '#')
                     start_counting = true;
             }
@@ -195,10 +203,11 @@ namespace ClientForm
                 NetPeerTcpBinding binding = new NetPeerTcpBinding("BindingUnsecure");
                 // Should configure the same as BindingUnsecure
                 Uri address;
-                if (self.id < id)
+                //Kyrill: int id replaced by Guid id, so self.id < user.id is not possible anymore
+                //if (self.id < id)
                     address = new Uri("net.p2p://PrivateChat/" + self.id + "x" + id);
-                else
-                    address = new Uri("net.p2p://PrivateChat/" + id + "x" + self.id);
+                //else
+                //    address = new Uri("net.p2p://PrivateChat/" + id + "x" + self.id);
 
                 hosts.Add(new ServiceHost(this));
                 hosts[index].AddServiceEndpoint(contract, binding, address);
@@ -244,10 +253,10 @@ namespace ClientForm
 
             if (check)
             {
-                self = proxy.Subscribe(textBox1.Text);
+                self = proxy.Subscribe(Guid.NewGuid(), textBox1.Text);
                 ChatMessage[] chat = proxy.GetLastMessages();
                 for (int i = 0; i < chat.Count(); ++i)
-                    listChatroom.Items.Add(chat[i].user.username + " (#" + chat[i].user.id + "): " + chat[i].text);
+                    listChatroom.Items.Add(chat[i].user.username + " (#" + chat[i].user.id.ToString() + "): " + chat[i].text);
 
                 label1.Hide();
                 textBox1.Hide();

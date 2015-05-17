@@ -11,22 +11,23 @@ namespace Server
     public interface IChat
     {
         [OperationContract]
-        User Subscribe(string username);
+        //Kyrill: added Guid id to Subscribe so that the client can create its own id
+        User Subscribe(Guid id, string username);
 
         [OperationContract]
         List<ChatMessage> GetLastMessages();
 
         [OperationContract(IsOneWay = true)]
-        void SendPublicMessage(int from, string message);
+        void SendPublicMessage(Guid from, string message);
 
         [OperationContract]
-        User ConnectWithUser(int from, int to);
+        User ConnectWithUser(Guid from, Guid to);
 
         [OperationContract(IsOneWay = true)]
-        void SendPrivateMessage(int from, string message, int to);
+        void SendPrivateMessage(Guid from, string message, Guid to);
 
         [OperationContract(IsOneWay = true)]
-        void Unsubscribe(int id);
+        void Unsubscribe(Guid id);
     }
 
     [ServiceContract(Namespace = "Server", CallbackContract = typeof(IChatCallback))]
@@ -58,7 +59,8 @@ namespace Server
     public class User
     {
         [DataMember]
-        public int id { get; set; }
+        //Kyrill: int id replaced by Guid id
+        public Guid id { get; set; }
 
         [DataMember]
         public string username { get; set; }

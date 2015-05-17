@@ -11,6 +11,7 @@ namespace ClientForm
     public interface IPrivateChat
     {
         [OperationContract(IsOneWay=true)]
-        void SendMessage(int id, string message);
+        //Kyrill: int id replaced by Guid id
+        void SendMessage(Guid id, string message);
     }
 }
