@@ -27,6 +27,7 @@ namespace ClientForm
         List<ServiceHost> hosts = new List<ServiceHost>();
         List<ChannelFactory<IPrivateChat>> channelFactories = new List<ChannelFactory<IPrivateChat>>();
 
+        List<Guid> conversationUserIds = new List<Guid>();
         public Form1()
         {
             // C/S
@@ -52,6 +53,7 @@ namespace ClientForm
         {
             //Kyrill: int id replaced by Guid id
             listChatroom.Items.Add(message.user.username + " (#" + message.user.id.ToString() + "): " + message.text);
+            conversationUserIds.Add(message.user.id); //add user Id to a list
         }
 
         public void DeliverMessage(ChatMessage message)
@@ -160,10 +162,12 @@ namespace ClientForm
         private void listChatroom_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             String selected_message = listChatroom.SelectedItem.ToString();
+            Guid selectedUserId = conversationUserIds.ElementAt(listChatroom.SelectedIndex);
+
 
             bool start_counting = false;
             //Kyrill: int id replaced by Guid id
-            Guid id = Guid.NewGuid();
+            /*Guid id = Guid.NewGuid();
             for (int i = 0; i < selected_message.Count(); ++i) {
                 if (selected_message[i] == ')')
                     break;
@@ -173,9 +177,9 @@ namespace ClientForm
                   //  id = 10*id + Convert.ToInt16(selected_message[i].ToString());
                 if (selected_message[i] == '#')
                     start_counting = true;
-            }
+            }*/
 
-            if (id == self.id)
+            if (selectedUserId == self.id)
             {
                 return;
             }
@@ -183,13 +187,13 @@ namespace ClientForm
             int index = -1;
             for (int i = 0; i < private_list.Count; ++i)
             {
-                if (private_list[i].id == id)
+                if (private_list[i].id == selectedUserId)
                     index = i;
             }
 
             if (index == -1)
             {
-                User new_user = proxy.ConnectWithUser(self.id, id);
+                User new_user = proxy.ConnectWithUser(self.id, selectedUserId);
 
                 if (new_user == null)
                     return;
@@ -205,7 +209,7 @@ namespace ClientForm
                 Uri address;
                 //Kyrill: int id replaced by Guid id, so self.id < user.id is not possible anymore
                 //if (self.id < id)
-                    address = new Uri("net.p2p://PrivateChat/" + self.id + "x" + id);
+                address = new Uri("net.p2p://PrivateChat/" + self.id + "x" + selectedUserId);
                 //else
                 //    address = new Uri("net.p2p://PrivateChat/" + id + "x" + self.id);
 
@@ -255,9 +259,10 @@ namespace ClientForm
             {
                 self = proxy.Subscribe(Guid.NewGuid(), textBox1.Text);
                 ChatMessage[] chat = proxy.GetLastMessages();
-                for (int i = 0; i < chat.Count(); ++i)
+                for (int i = 0; i < chat.Count(); ++i){
                     listChatroom.Items.Add(chat[i].user.username + " (#" + chat[i].user.id.ToString() + "): " + chat[i].text);
-
+                    conversationUserIds.Add(chat[i].user.id);
+                }
                 label1.Hide();
                 textBox1.Hide();
                 button1.Hide();
