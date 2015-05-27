@@ -49,10 +49,16 @@ namespace ClientForm
             sendButtonPrivate.Hide();
         }
 
+        //Kyrill: removed the id from displayed message
+        private string stringFromMessage(ChatMessage message)
+        {
+            return message.user.username + ": " + message.text;
+        }
+
         public void BroadcastMessage(ChatMessage message)
         {
             //Kyrill: int id replaced by Guid id
-            listChatroom.Items.Add(message.user.username + " (#" + message.user.id.ToString() + "): " + message.text);
+            listChatroom.Items.Add(stringFromMessage(message)); //Kyrill: removed the id from displayed message
             conversationUserIds.Add(message.user.id); //add user Id to a list
         }
 
@@ -83,7 +89,7 @@ namespace ClientForm
             listOfConversations.Items.Insert(0, private_list[index].username);
 
             //Kyrill: int id replaced by Guid id
-            string new_message = message.user.username + " (#" + message.user.id.ToString() + "): " + message.text;
+            string new_message = stringFromMessage(message); //Kyrill: removed the id from displayed message
             conversations[index].Add(new_message);
 
             if (selected_conversation == index)
@@ -149,8 +155,7 @@ namespace ClientForm
             listOfConversations.Items.Insert(0, private_list[index].username);
 
             //Kyrill: int id replaced by Guid id
-            string new_message = private_list[index].username +
-                                 " (#" + private_list[index].id.ToString() + "): " + message;
+            string new_message = private_list[index].username + ": " + message; //Kyrill: removed the id from displayed message
             conversations[index].Add(new_message);
 
             if (selected_conversation == index)
@@ -165,7 +170,7 @@ namespace ClientForm
             Guid selectedUserId = conversationUserIds.ElementAt(listChatroom.SelectedIndex);
 
 
-            bool start_counting = false;
+            //bool start_counting = false;
             //Kyrill: int id replaced by Guid id
             /*Guid id = Guid.NewGuid();
             for (int i = 0; i < selected_message.Count(); ++i) {
@@ -260,7 +265,7 @@ namespace ClientForm
                 self = proxy.Subscribe(Guid.NewGuid(), textBox1.Text);
                 ChatMessage[] chat = proxy.GetLastMessages();
                 for (int i = 0; i < chat.Count(); ++i){
-                    listChatroom.Items.Add(chat[i].user.username + " (#" + chat[i].user.id.ToString() + "): " + chat[i].text);
+                    listChatroom.Items.Add(stringFromMessage(chat[i])); //Kyrill: removed the id from displayed message
                     conversationUserIds.Add(chat[i].user.id);
                 }
                 label1.Hide();
