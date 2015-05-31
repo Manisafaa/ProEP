@@ -11,3 +11,9 @@ C:\Users\Gustavo\Dropbox\ProEP\First Increment\Server\Server\bin\Debug\Server.pd
 C:\Users\Gustavo\Dropbox\ProEP\First Increment\Server\Server\obj\Debug\Server.csprojResolveAssemblyReference.cache
 C:\Users\Gustavo\Dropbox\ProEP\First Increment\Server\Server\obj\Debug\Server.dll
 C:\Users\Gustavo\Dropbox\ProEP\First Increment\Server\Server\obj\Debug\Server.pdb
+C:\Users\Mani\Documents\GitHub\ProEP\First Increment\Server\Server\bin\Debug\Server.dll.config
+C:\Users\Mani\Documents\GitHub\ProEP\First Increment\Server\Server\bin\Debug\Server.dll
+C:\Users\Mani\Documents\GitHub\ProEP\First Increment\Server\Server\bin\Debug\Server.pdb
+C:\Users\Mani\Documents\GitHub\ProEP\First Increment\Server\Server\obj\Debug\Server.csprojResolveAssemblyReference.cache
+C:\Users\Mani\Documents\GitHub\ProEP\First Increment\Server\Server\obj\Debug\Server.dll
+C:\Users\Mani\Documents\GitHub\ProEP\First Increment\Server\Server\obj\Debug\Server.pdb
