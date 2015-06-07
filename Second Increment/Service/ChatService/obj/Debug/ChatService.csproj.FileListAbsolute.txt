@@ -1,0 +1,5 @@
+c:\users\mani\documents\visual studio 2012\Projects\WcfService1\WcfService1\obj\Debug\ChatService.csprojResolveAssemblyReference.cache
+c:\users\mani\documents\visual studio 2012\Projects\WcfService1\WcfService1\bin\WcfService1.dll
+c:\users\mani\documents\visual studio 2012\Projects\WcfService1\WcfService1\bin\WcfService1.pdb
+c:\users\mani\documents\visual studio 2012\Projects\WcfService1\WcfService1\obj\Debug\WcfService1.dll
+c:\users\mani\documents\visual studio 2012\Projects\WcfService1\WcfService1\obj\Debug\WcfService1.pdb
