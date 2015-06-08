@@ -82,22 +82,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Service References\ChatServer\Chat.wsdl" />
+    <None Include="Service References\ChatServer\Chat1.wsdl" />
     <None Include="Service References\ChatServer\ClientForm.ChatServer.ChatMessage.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\ChatServer\ClientForm.ChatServer.User.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\ChatServer\item.wsdl" />
-    <None Include="Service References\ChatServer\item.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ChatServer\item1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ChatServer\item2.xsd">
-      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -110,19 +100,29 @@
     <WCFMetadataStorage Include="Service References\ChatServer\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\ChatServer\item.disco" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Service References\ChatServer\configuration91.svcinfo" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\ChatServer\configuration.svcinfo" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Service References\ChatServer\item1.wsdl" />
+    <None Include="Service References\ChatServer\item3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ChatServer\item31.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ChatServer\item32.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Service References\ChatServer\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ChatServer\item1.disco" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

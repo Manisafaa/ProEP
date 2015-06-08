@@ -19,15 +19,15 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://localhost:8733/Design_Time_Addresses/Cerver/Service1/" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://192.168.0.2:8081/Design_Time_Addresses/Cerver/Service1/" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="item.wsdl" MetadataType="Wsdl" ID="2687bc05-89f1-4a02-8588-a1bb82b968f0" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/Cerver/Service1/?wsdl=wsdl0" />
-    <MetadataFile FileName="item.disco" MetadataType="Disco" ID="9124db48-3ace-46c3-8f5a-c67f721a0408" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/Cerver/Service1/?disco" />
-    <MetadataFile FileName="item.xsd" MetadataType="Schema" ID="1d5ef880-cd69-481c-b67b-a91096bfca6a" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/Cerver/Service1/?xsd=xsd2" />
-    <MetadataFile FileName="Chat.wsdl" MetadataType="Wsdl" ID="199c384f-7b2e-49f9-8043-2c92318c0abf" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/Cerver/Service1/?wsdl" />
-    <MetadataFile FileName="item1.xsd" MetadataType="Schema" ID="5998b0bb-c2b6-4d2d-b4ae-a5236a207c5d" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/Cerver/Service1/?xsd=xsd1" />
-    <MetadataFile FileName="item2.xsd" MetadataType="Schema" ID="f81dc04e-f645-4b79-89af-849b3613045e" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/Cerver/Service1/?xsd=xsd0" />
+    <MetadataFile FileName="item3.xsd" MetadataType="Schema" ID="a909babc-cac1-4f9d-b473-f49ad685375f" SourceId="1" SourceUrl="http://192.168.0.2:8081/Design_Time_Addresses/Cerver/Service1/?xsd=xsd2" />
+    <MetadataFile FileName="Chat1.wsdl" MetadataType="Wsdl" ID="a0c33923-811e-42f2-9dd9-a10ae9af8cea" SourceId="1" SourceUrl="http://192.168.0.2:8081/Design_Time_Addresses/Cerver/Service1/?wsdl" />
+    <MetadataFile FileName="item1.disco" MetadataType="Disco" ID="0cf7bfc8-0679-43de-992c-05f5ad49ca45" SourceId="1" SourceUrl="http://192.168.0.2:8081/Design_Time_Addresses/Cerver/Service1/?disco" />
+    <MetadataFile FileName="item1.wsdl" MetadataType="Wsdl" ID="f827807e-4498-4ce7-a591-ac35a0fbb657" SourceId="1" SourceUrl="http://192.168.0.2:8081/Design_Time_Addresses/Cerver/Service1/?wsdl=wsdl0" />
+    <MetadataFile FileName="item31.xsd" MetadataType="Schema" ID="615bbcce-52c1-4a90-a8ec-2dc116cac821" SourceId="1" SourceUrl="http://192.168.0.2:8081/Design_Time_Addresses/Cerver/Service1/?xsd=xsd1" />
+    <MetadataFile FileName="item32.xsd" MetadataType="Schema" ID="f70b751c-e934-4c1b-ae0f-53a47f07025a" SourceId="1" SourceUrl="http://192.168.0.2:8081/Design_Time_Addresses/Cerver/Service1/?xsd=xsd0" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
