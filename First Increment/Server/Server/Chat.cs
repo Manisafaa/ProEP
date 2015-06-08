@@ -11,103 +11,87 @@ namespace Server
     public class Chat : IChat
     {
         List<ChatMessage> lastMessages = new List<ChatMessage>();
+        List<User> users = new List<User>();
 
-        //Kyrill: List replaced by dictionary to use Guid
-        //List<User> users = new List<User>();
-        Dictionary<Guid, User> users = new Dictionary<Guid, User>();
+
         public User Subscribe(Guid id, string username)
         {
             User new_user = new User();
 
-            //Kyrill: List replaced by dictionary to use Guid
-            new_user.id = id;//users.Count;
+            new_user.id = id;
             new_user.username = username;
             new_user.callback = OperationContext.Current.GetCallbackChannel<IChatCallback>();
 
-            //Kyrill: List replaced by dictionary to use Guid
-            users.Add(new_user.id, new_user);
+            users.Add(new_user);
 
             return new_user;
         }
+
 
         public List<ChatMessage> GetLastMessages()
         {
             return lastMessages;
         }
 
+
         public void SendPublicMessage(Guid from, string message)
         {
+            int index = -1;
+
+            for (int i = 0; i < users.Count; ++i)
+            {
+                if (users[i].id == from)
+                    index = i;
+            }
+
+            if (index == -1)
+                return;
+
             ChatMessage new_message = new ChatMessage();
-            new_message.user = users[from];
+            new_message.user = users[index];
             new_message.text = message;
 
-            //Kyrill: List replaced by dictionary to use Guid
-            /*
             for (int i = 0; i < users.Count; ++i)
             {
                 if (users[i].callback != null)
                     users[i].callback.BroadcastMessage(new_message);
-            }*/
-
-
-            foreach (var dictValue in users)
-            {
-                User user = dictValue.Value;
-                if (user.callback != null)
-                    user.callback.BroadcastMessage(new_message);
             }
 
             if (lastMessages.Count > 5)
                 lastMessages.RemoveAt(0);
             lastMessages.Add(new_message);
         }
+        
 
         public User ConnectWithUser(Guid from, Guid to)
         {
-            User from_user = new User();
-            //Kyrill: List replaced by dictionary to use Guid
-/*
+            User from_user = new User(), to_user = new User();
+
             for (int i = 0; i < users.Count; ++i) {
                 if (from == users[i].id)
                     from_user = users[i];
+                if (to == users[i].id)
+                    to_user = users[i];
             }
-            */
-            if (users[from] != null)
-                from_user = users[from];
 
-            if (users[to].callback != null)
+
+            if (to_user.callback != null)
             {
-                if (users[to].callback.OpenHost(from_user))
-                    return users[to];
+                if (to_user.callback.OpenHost(from_user))
+                    return to_user;
             }
             
             return null;
         }
 
-        public void SendPrivateMessage(Guid from, string message, Guid to)
-        {
-            ChatMessage new_message = new ChatMessage();
-            new_message.user = users[from];
-            new_message.text = message;
 
-            if (users[to].callback != null) {
-                users[to].callback.DeliverMessage(new_message);
-            }
-            /*else
+        public void Unsubscribe()
+        {
+            for (int i = 0; i < users.Count; ++i)
             {
-                ChatMessage error_message = new ChatMessage();
-                error_message.user = users[to];
-                error_message.text = "The user logged out";
-
-                users[from].callback.DeliverMessage(error_message);
-            }*/
-
-        }
-
-        public void Unsubscribe(Guid id)
-        {
-            if (users[id].callback == OperationContext.Current.GetCallbackChannel<IChatCallback>())
-                users[id].callback = null;
+                if (users[i].callback == OperationContext.Current.GetCallbackChannel<IChatCallback>())
+                    users[i].callback = null;
+            }
         }
     }
 }

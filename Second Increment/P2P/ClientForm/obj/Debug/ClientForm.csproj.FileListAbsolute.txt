@@ -28,3 +28,6 @@ C:\Users\Gustavo\Desktop\First Increment\ClientForm\ClientForm\obj\Debug\ClientF
 C:\Users\Gustavo\Desktop\First Increment\ClientForm\ClientForm\obj\Debug\ClientForm.Chat.resources
 C:\Users\Gustavo\Desktop\First Increment\ClientForm\ClientForm\obj\Debug\ClientForm.Properties.Resources.resources
 C:\Users\Gustavo\Desktop\First Increment\ClientForm\ClientForm\obj\Debug\ClientForm.csproj.GenerateResource.Cache
+C:\Users\Gustavo\Desktop\ProEP\Second Increment\P2P\ClientForm\bin\Debug\ClientForm.exe.config
+C:\Users\Gustavo\Desktop\ProEP\Second Increment\P2P\ClientForm\obj\Debug\ClientForm.exe
+C:\Users\Gustavo\Desktop\ProEP\Second Increment\P2P\ClientForm\obj\Debug\ClientForm.pdb

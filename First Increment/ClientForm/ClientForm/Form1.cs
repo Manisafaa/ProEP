@@ -34,9 +34,6 @@ namespace ClientForm
             InstanceContext context = new InstanceContext(this);
             proxy = new ChatClient(context);
 
-            // P2P
-            //host = new ServiceHost(this);
-
             InitializeComponent();
 
             tabControl1.Hide();
@@ -114,11 +111,10 @@ namespace ClientForm
             Type contract = typeof(IPrivateChat);
             NetPeerTcpBinding binding = new NetPeerTcpBinding("BindingUnsecure");
             Uri address;
-            //Kyrill: int id replaced by Guid id, so self.id < user.id is not possible anymore
-            //if (self.id < user.id)
-                address = new Uri("net.p2p://PrivateChat/" + self.id + "x" + user.id);
-            //else
-            //    address = new Uri("net.p2p://PrivateChat/" + user.id + "x" + self.id);
+            if (isIdBigger(self.id.ToString(), user.id.ToString()))
+                address = new Uri("net.p2p://PrivateChat/" + self.id.ToString() + "x" + user.id.ToString());
+            else
+                address = new Uri("net.p2p://PrivateChat/" + user.id.ToString() + "x" + self.id.ToString());
 
             hosts.Add(new ServiceHost(this));
             hosts[index].AddServiceEndpoint(contract, binding, address);
@@ -169,21 +165,6 @@ namespace ClientForm
             String selected_message = listChatroom.SelectedItem.ToString();
             Guid selectedUserId = conversationUserIds.ElementAt(listChatroom.SelectedIndex);
 
-
-            //bool start_counting = false;
-            //Kyrill: int id replaced by Guid id
-            /*Guid id = Guid.NewGuid();
-            for (int i = 0; i < selected_message.Count(); ++i) {
-                if (selected_message[i] == ')')
-                    break;
-
-                //Kyrill: what is this for ?
-                //if (start_counting == true)
-                  //  id = 10*id + Convert.ToInt16(selected_message[i].ToString());
-                if (selected_message[i] == '#')
-                    start_counting = true;
-            }*/
-
             if (selectedUserId == self.id)
             {
                 return;
@@ -210,13 +191,11 @@ namespace ClientForm
                 // Opening Service
                 Type contract = typeof(IPrivateChat);
                 NetPeerTcpBinding binding = new NetPeerTcpBinding("BindingUnsecure");
-                // Should configure the same as BindingUnsecure
                 Uri address;
-                //Kyrill: int id replaced by Guid id, so self.id < user.id is not possible anymore
-                //if (self.id < id)
-                address = new Uri("net.p2p://PrivateChat/" + self.id + "x" + selectedUserId);
-                //else
-                //    address = new Uri("net.p2p://PrivateChat/" + id + "x" + self.id);
+                if (isIdBigger(self.id.ToString(), selectedUserId.ToString()))
+                    address = new Uri("net.p2p://PrivateChat/" + self.id.ToString() + "x" + selectedUserId.ToString());
+                else
+                    address = new Uri("net.p2p://PrivateChat/" + selectedUserId.ToString() + "x" + self.id.ToString());
 
                 hosts.Add(new ServiceHost(this));
                 hosts[index].AddServiceEndpoint(contract, binding, address);
@@ -329,8 +308,7 @@ namespace ClientForm
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (self != null)
-                proxy.Unsubscribe(self.id);
+            proxy.Unsubscribe();
         }
 
         private void listOfConversations_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -366,6 +344,19 @@ namespace ClientForm
                 button1.Enabled = false;
             else
                 button1.Enabled = true;
+        }
+
+        public bool isIdBigger(string a, string b)
+        {
+            for (int i = 0; i < a.Count(); ++i)
+            {
+                if (a[i] > b[i])
+                    return true;
+                else if (a[i] < b[i])
+                    return false;
+            }
+
+            return false;
         }
     }
 }

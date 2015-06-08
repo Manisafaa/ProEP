@@ -181,17 +181,11 @@ namespace ClientForm.ChatServer {
         [System.ServiceModel.OperationContractAttribute(Action="Server/IChat/ConnectWithUser", ReplyAction="Server/IChat/ConnectWithUserResponse")]
         System.Threading.Tasks.Task<ClientForm.ChatServer.User> ConnectWithUserAsync(System.Guid from, System.Guid to);
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="Server/IChat/SendPrivateMessage")]
-        void SendPrivateMessage(System.Guid from, string message, System.Guid to);
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="Server/IChat/SendPrivateMessage")]
-        System.Threading.Tasks.Task SendPrivateMessageAsync(System.Guid from, string message, System.Guid to);
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="Server/IChat/Unsubscribe")]
+        void Unsubscribe();
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="Server/IChat/Unsubscribe")]
-        void Unsubscribe(System.Guid id);
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="Server/IChat/Unsubscribe")]
-        System.Threading.Tasks.Task UnsubscribeAsync(System.Guid id);
+        System.Threading.Tasks.Task UnsubscribeAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -267,20 +261,12 @@ namespace ClientForm.ChatServer {
             return base.Channel.ConnectWithUserAsync(from, to);
         }
         
-        public void SendPrivateMessage(System.Guid from, string message, System.Guid to) {
-            base.Channel.SendPrivateMessage(from, message, to);
+        public void Unsubscribe() {
+            base.Channel.Unsubscribe();
         }
         
-        public System.Threading.Tasks.Task SendPrivateMessageAsync(System.Guid from, string message, System.Guid to) {
-            return base.Channel.SendPrivateMessageAsync(from, message, to);
-        }
-        
-        public void Unsubscribe(System.Guid id) {
-            base.Channel.Unsubscribe(id);
-        }
-        
-        public System.Threading.Tasks.Task UnsubscribeAsync(System.Guid id) {
-            return base.Channel.UnsubscribeAsync(id);
+        public System.Threading.Tasks.Task UnsubscribeAsync() {
+            return base.Channel.UnsubscribeAsync();
         }
     }
 }

@@ -3,3 +3,9 @@ C:\Users\Gustavo\Dropbox\ProEP\First Increment\Server\Server\bin\Release\Server.
 C:\Users\Gustavo\Dropbox\ProEP\First Increment\Server\Server\bin\Release\Server.pdb
 C:\Users\Gustavo\Dropbox\ProEP\First Increment\Server\Server\obj\Release\Server.dll
 C:\Users\Gustavo\Dropbox\ProEP\First Increment\Server\Server\obj\Release\Server.pdb
+C:\Users\Gustavo\Desktop\ProEP\First Increment\Server\Server\bin\Release\Server.dll.config
+C:\Users\Gustavo\Desktop\ProEP\First Increment\Server\Server\bin\Release\Server.dll
+C:\Users\Gustavo\Desktop\ProEP\First Increment\Server\Server\bin\Release\Server.pdb
+C:\Users\Gustavo\Desktop\ProEP\First Increment\Server\Server\obj\Release\Server.csprojResolveAssemblyReference.cache
+C:\Users\Gustavo\Desktop\ProEP\First Increment\Server\Server\obj\Release\Server.dll
+C:\Users\Gustavo\Desktop\ProEP\First Increment\Server\Server\obj\Release\Server.pdb

@@ -24,10 +24,7 @@ namespace Server
         User ConnectWithUser(Guid from, Guid to);
 
         [OperationContract(IsOneWay = true)]
-        void SendPrivateMessage(Guid from, string message, Guid to);
-
-        [OperationContract(IsOneWay = true)]
-        void Unsubscribe(Guid id);
+        void Unsubscribe();
     }
 
     [ServiceContract(Namespace = "Server", CallbackContract = typeof(IChatCallback))]
@@ -59,7 +56,6 @@ namespace Server
     public class User
     {
         [DataMember]
-        //Kyrill: int id replaced by Guid id
         public Guid id { get; set; }
 
         [DataMember]
@@ -67,5 +63,7 @@ namespace Server
 
         [DataMember]
         public IChatCallback callback { get; set; }
+
+        public string ToString() { return username; }
     }
 }

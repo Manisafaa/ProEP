@@ -82,7 +82,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Service References\ChatServer\Chat1.wsdl" />
+    <None Include="Service References\ChatServer\Chat.wsdl" />
     <None Include="Service References\ChatServer\ClientForm.ChatServer.ChatMessage.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -106,14 +106,14 @@
     <None Include="Service References\ChatServer\configuration.svcinfo" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\ChatServer\item1.wsdl" />
-    <None Include="Service References\ChatServer\item3.xsd">
+    <None Include="Service References\ChatServer\item.wsdl" />
+    <None Include="Service References\ChatServer\item.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\ChatServer\item31.xsd">
+    <None Include="Service References\ChatServer\item1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\ChatServer\item32.xsd">
+    <None Include="Service References\ChatServer\item2.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\ChatServer\Reference.svcmap">
@@ -122,7 +122,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\ChatServer\item1.disco" />
+    <None Include="Service References\ChatServer\item.disco" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

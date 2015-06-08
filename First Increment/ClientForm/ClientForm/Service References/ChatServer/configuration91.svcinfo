@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="OUo/++iNIbA1ZhJZXphQV/1g3Y0=">
+<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="xpnudNKOHEyA0GRZvdTWXpyUuUU=">
   <bindingConfigurations>
     <bindingConfiguration bindingType="netTcpBinding" name="NetTcpBinding_IChat">
       <properties>
@@ -118,10 +118,10 @@
     </bindingConfiguration>
   </bindingConfigurations>
   <endpoints>
-    <endpoint name="NetTcpBinding_IChat" contract="ChatServer.IChat" bindingType="netTcpBinding" address="net.tcp://192.168.0.2/Design_Time_Address/Cerver/Service1" bindingConfiguration="NetTcpBinding_IChat">
+    <endpoint name="NetTcpBinding_IChat" contract="ChatServer.IChat" bindingType="netTcpBinding" address="net.tcp://192.168.0.31:8733/Design_Time_Address/Cerver/Service1" bindingConfiguration="NetTcpBinding_IChat">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>net.tcp://192.168.0.2/Design_Time_Address/Cerver/Service1</serializedValue>
+          <serializedValue>net.tcp://192.168.0.31:8733/Design_Time_Address/Cerver/Service1</serializedValue>
         </property>
         <property path="/behaviorConfiguration" isComplexType="false" isExplicitlyDefined="false" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />
