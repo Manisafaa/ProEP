@@ -112,9 +112,9 @@ namespace ClientForm
             NetPeerTcpBinding binding = new NetPeerTcpBinding("BindingUnsecure");
             Uri address;
             if (isIdBigger(self.id.ToString(), user.id.ToString()))
-                address = new Uri("net.p2p://PrivateChat/" + self.id.ToString() + "x" + user.id.ToString());
+                address = new Uri("net.p2p://192.168.0.2:14242/" + self.id.ToString() + "x" + user.id.ToString());
             else
-                address = new Uri("net.p2p://PrivateChat/" + user.id.ToString() + "x" + self.id.ToString());
+                address = new Uri("net.p2p://192.168.0.2:14242/" + user.id.ToString() + "x" + self.id.ToString());
 
             hosts.Add(new ServiceHost(this));
             hosts[index].AddServiceEndpoint(contract, binding, address);
@@ -193,9 +193,9 @@ namespace ClientForm
                 NetPeerTcpBinding binding = new NetPeerTcpBinding("BindingUnsecure");
                 Uri address;
                 if (isIdBigger(self.id.ToString(), selectedUserId.ToString()))
-                    address = new Uri("net.p2p://PrivateChat/" + self.id.ToString() + "x" + selectedUserId.ToString());
+                    address = new Uri("net.p2p://192.168.0.1:14242/" + self.id.ToString() + "x" + selectedUserId.ToString());
                 else
-                    address = new Uri("net.p2p://PrivateChat/" + selectedUserId.ToString() + "x" + self.id.ToString());
+                    address = new Uri("net.p2p://192.168.0.1:14242/" + selectedUserId.ToString() + "x" + self.id.ToString());
 
                 hosts.Add(new ServiceHost(this));
                 hosts[index].AddServiceEndpoint(contract, binding, address);

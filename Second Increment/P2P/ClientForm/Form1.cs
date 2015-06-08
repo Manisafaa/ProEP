@@ -50,7 +50,6 @@ namespace ClientForm
             sendButtonPrivate.Hide();
 
             self = new User();
-            //byte[] add = {192,168,0,22}; // HARDCODED
 
             IPHostEntry host;
             host = Dns.GetHostEntry(Dns.GetHostName());
@@ -79,7 +78,8 @@ namespace ClientForm
 
             // Freeing connection 
             Config = new NetPeerConfiguration("Chat");
-            Config.BroadcastAddress = self.IP;
+            byte[] add = {192,168,1,255};
+            Config.BroadcastAddress = new IPAddress(add);
             Config.Port = 14242;
             Config.EnableMessageType(NetIncomingMessageType.DiscoveryRequest);
             Config.EnableMessageType(NetIncomingMessageType.DiscoveryResponse);
@@ -95,7 +95,7 @@ namespace ClientForm
             // Opening own Inbox
             Type contract = typeof(IPrivateChat);
             NetPeerTcpBinding binding = new NetPeerTcpBinding("BindingUnsecure");
-            Uri address = new Uri("net.p2p://" + self.IP + "/14242/inbox");
+            Uri address = new Uri("net.p2p://" + self.IP + ":14242/inbox");
 
             selfHost = new ServiceHost(this);
             selfHost.AddServiceEndpoint(contract, binding, address);
@@ -119,25 +119,21 @@ namespace ClientForm
 
             Type contract = typeof(IPrivateChat);
             NetPeerTcpBinding binding = new NetPeerTcpBinding("BindingUnsecure");
-            Uri address = new Uri("net.p2p://" + endpoint.Address.ToString() + "/14242/inbox");
+            Uri address = new Uri("net.p2p://" + endpoint.Address.ToString() + ":14242/inbox");
 
             ServiceHost testHost = new ServiceHost(this);
             testHost.AddServiceEndpoint(contract, binding, address);
-            testHost.Open();
 
             ChannelFactory<IPrivateChat> testChannelFactory = new ChannelFactory<IPrivateChat>(testHost.Description.Endpoints[0]);
             IPrivateChat testChannel = testChannelFactory.CreateChannel();
 
             testChannel.answerPeer(self);
-
             testChannelFactory.Close();
-            testHost.Close();
         }
 
 
         public void answerPeer(User user)
         {
-            
             for (int i = 0; i < private_list.Count; ++i)
             {
                 if (user.id == private_list[i].id)
@@ -151,13 +147,11 @@ namespace ClientForm
             // Estabilishing connection
             Type contract = typeof(IPrivateChat);
             NetPeerTcpBinding binding = new NetPeerTcpBinding("BindingUnsecure");
-            Uri address = new Uri("net.p2p://" + user.IP + "/inbox");
-
-            hosts.Add(new ServiceHost(this));
-            hosts[index].AddServiceEndpoint(contract, binding, address);
-            hosts[index].Open();
+            Uri address = new Uri("net.p2p://" + user.IP + ":14242/inbox");
 
             // Creating Channel
+            hosts.Add(new ServiceHost(this));
+            hosts[index].AddServiceEndpoint(contract, binding, address);
             channelFactories.Add(new ChannelFactory<IPrivateChat>(hosts[index].Description.Endpoints[0]));
             channels.Add(channelFactories[index].CreateChannel());
 
