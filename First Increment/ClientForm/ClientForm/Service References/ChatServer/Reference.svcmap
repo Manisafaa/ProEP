@@ -19,15 +19,14 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://192.168.0.31/Design_Time_Addresses/Cerver/Service1/" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://192.168.0.2/IISHostedChat/Service1.svc?wsdl" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="item.disco" MetadataType="Disco" ID="0da0bb00-eeeb-4af5-8052-0216722238e1" SourceId="1" SourceUrl="http://192.168.0.31/Design_Time_Addresses/Cerver/Service1/?disco" />
-    <MetadataFile FileName="item.wsdl" MetadataType="Wsdl" ID="2fdd8039-196b-4e43-a38d-45abf683a0ba" SourceId="1" SourceUrl="http://192.168.0.31/Design_Time_Addresses/Cerver/Service1/?wsdl=wsdl0" />
-    <MetadataFile FileName="item.xsd" MetadataType="Schema" ID="3ee0ace7-3532-4cd8-abd1-aeec882ee16c" SourceId="1" SourceUrl="http://192.168.0.31/Design_Time_Addresses/Cerver/Service1/?xsd=xsd0" />
-    <MetadataFile FileName="Chat.wsdl" MetadataType="Wsdl" ID="de81d2ef-b050-4c9e-abbf-03de8d65df1f" SourceId="1" SourceUrl="http://192.168.0.31/Design_Time_Addresses/Cerver/Service1/?wsdl" />
-    <MetadataFile FileName="item1.xsd" MetadataType="Schema" ID="6ed5bbbb-4617-4535-8fa8-16b2630bb16f" SourceId="1" SourceUrl="http://192.168.0.31/Design_Time_Addresses/Cerver/Service1/?xsd=xsd1" />
-    <MetadataFile FileName="item2.xsd" MetadataType="Schema" ID="37f4a924-e809-4a49-aa4d-a72bfc2fa3c2" SourceId="1" SourceUrl="http://192.168.0.31/Design_Time_Addresses/Cerver/Service1/?xsd=xsd2" />
+    <MetadataFile FileName="Service1.wsdl" MetadataType="Wsdl" ID="f2a1842f-84ec-4ef5-8d70-69094413f5f5" SourceId="1" SourceUrl="http://mhs-mbp/IISHostedChat/Service1.svc?wsdl=wsdl0" />
+    <MetadataFile FileName="Service1.xsd" MetadataType="Schema" ID="7c02b0aa-4809-4338-9c5a-9dd132405c94" SourceId="1" SourceUrl="http://mhs-mbp/IISHostedChat/Service1.svc?xsd=xsd2" />
+    <MetadataFile FileName="Service11.xsd" MetadataType="Schema" ID="76da4036-acd3-4301-9d23-649cde4ff702" SourceId="1" SourceUrl="http://mhs-mbp/IISHostedChat/Service1.svc?xsd=xsd0" />
+    <MetadataFile FileName="Service12.xsd" MetadataType="Schema" ID="f2f2e209-2ce3-4e29-9155-8d53a8c2eb3c" SourceId="1" SourceUrl="http://mhs-mbp/IISHostedChat/Service1.svc?xsd=xsd1" />
+    <MetadataFile FileName="Service11.wsdl" MetadataType="Wsdl" ID="a86019d6-cec7-4000-80a3-8a08e67bb0a2" SourceId="1" SourceUrl="http://192.168.0.2/IISHostedChat/Service1.svc?wsdl" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
