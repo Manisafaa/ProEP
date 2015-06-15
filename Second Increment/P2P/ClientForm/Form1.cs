@@ -66,7 +66,7 @@ namespace ClientForm
 
         private void loginButton_Click(object sender, EventArgs e)
         {
-            self.id = new Guid();
+            self.id = Guid.NewGuid();
             self.username =  textUsername.Text;
 
             label1.Hide();
@@ -101,6 +101,8 @@ namespace ClientForm
 
                 basePort++;
             }
+
+            basePort -= IPs.Count();
         }
 
 
