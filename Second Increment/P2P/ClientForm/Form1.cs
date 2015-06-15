@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using System.ServiceModel;
 using System.Threading;
 using System.Net;
+using System.Net.NetworkInformation;
+using System.Net.Sockets;
 using Lidgren.Network;
 
 
@@ -85,21 +87,14 @@ namespace ClientForm
             selfHost.AddServiceEndpoint(contract, binding, address);
             selfHost.Open();
 
+            
+
             // Finding Broadcast Address of the Subnet
-            string subnet = self.IP.ToString();
+            byte[] ipAddress = self.IP.GetAddressBytes();
+            byte[] subnetMask = GetSubnetMask(self.IP).GetAddressBytes();
             byte[] broadcastAddress = new byte[4];
-            for (int i = 0; i < 3; ++i)
-            {
-                string Byte = "";
-                do
-                {
-                    Byte += subnet[0];
-                    subnet = subnet.Remove(0, 1);
-                } while (subnet[0] != '.');
-                subnet = subnet.Remove(0, 1);
-                broadcastAddress[i] = Convert.ToByte(Byte);
-            }
-            broadcastAddress[3] = 255;
+            for (int i = 0; i < 4; ++i)
+                broadcastAddress[i] = Convert.ToByte(Convert.ToByte(ipAddress[i]) | (~Convert.ToByte(subnetMask[i]) & 255));
 
             // Freeing connection 
             Config = new NetPeerConfiguration("Chat");
@@ -114,6 +109,25 @@ namespace ClientForm
             NetWorker = new MyNetWorker(Peer, this);
             NetThread = new Thread(NetWorker.ProcessNet);
             NetThread.Start();
+        }
+
+
+        public static IPAddress GetSubnetMask(IPAddress address)
+        {
+            foreach (NetworkInterface adapter in NetworkInterface.GetAllNetworkInterfaces())
+            {
+                foreach (UnicastIPAddressInformation unicastIPAddressInformation in adapter.GetIPProperties().UnicastAddresses)
+                {
+                    if (unicastIPAddressInformation.Address.AddressFamily == AddressFamily.InterNetwork)
+                    {
+                        if (address.Equals(unicastIPAddressInformation.Address))
+                        {
+                            return unicastIPAddressInformation.IPv4Mask;
+                        }
+                    }
+                }
+            }
+            throw new ArgumentException(string.Format("Can't find subnetmask for IP address '{0}'", address));
         }
 
 
