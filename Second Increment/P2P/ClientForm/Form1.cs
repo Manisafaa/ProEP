@@ -76,10 +76,34 @@ namespace ClientForm
             loginButton.Hide();
             tabControl.Show();
 
+            // Opening own Inbox
+            Type contract = typeof(IPrivateChat);
+            NetPeerTcpBinding binding = new NetPeerTcpBinding("BindingUnsecure");
+            Uri address = new Uri("net.p2p://" + self.IP + ":14242/inbox");
+
+            selfHost = new ServiceHost(this);
+            selfHost.AddServiceEndpoint(contract, binding, address);
+            selfHost.Open();
+
+            // Finding Broadcast Address of the Subnet
+            string subnet = self.IP.ToString();
+            byte[] broadcastAddress = new byte[4];
+            for (int i = 0; i < 3; ++i)
+            {
+                string Byte = "";
+                do
+                {
+                    Byte += subnet[0];
+                    subnet = subnet.Remove(0, 1);
+                } while (subnet[0] != '.');
+                subnet = subnet.Remove(0, 1);
+                broadcastAddress[i] = Convert.ToByte(Byte);
+            }
+            broadcastAddress[3] = 255;
+
             // Freeing connection 
             Config = new NetPeerConfiguration("Chat");
-            byte[] add = {192,168,1,255};
-            Config.BroadcastAddress = new IPAddress(add);
+            Config.BroadcastAddress = new IPAddress(broadcastAddress);
             Config.Port = 14242;
             Config.EnableMessageType(NetIncomingMessageType.DiscoveryRequest);
             Config.EnableMessageType(NetIncomingMessageType.DiscoveryResponse);
@@ -90,16 +114,6 @@ namespace ClientForm
             NetWorker = new MyNetWorker(Peer, this);
             NetThread = new Thread(NetWorker.ProcessNet);
             NetThread.Start();
-
-
-            // Opening own Inbox
-            Type contract = typeof(IPrivateChat);
-            NetPeerTcpBinding binding = new NetPeerTcpBinding("BindingUnsecure");
-            Uri address = new Uri("net.p2p://" + self.IP + ":14242/inbox");
-
-            selfHost = new ServiceHost(this);
-            selfHost.AddServiceEndpoint(contract, binding, address);
-            selfHost.Open();
         }
 
 
