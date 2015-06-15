@@ -33,5 +33,8 @@ namespace ClientForm
 
         [DataMember]
         public IPAddress IP { get; set; }
+
+        [DataMember]
+        public int Port { get; set; }
     }
 }

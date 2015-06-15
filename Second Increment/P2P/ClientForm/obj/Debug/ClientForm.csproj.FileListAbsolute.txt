@@ -40,3 +40,5 @@ C:\Users\Gustavo\Desktop\ProEP\Second Increment\P2P\ClientForm\obj\Debug\ClientF
 C:\Users\Gustavo\Desktop\ProEP\Second Increment\P2P\ClientForm\obj\Debug\ClientForm.Chat.resources
 C:\Users\Gustavo\Desktop\ProEP\Second Increment\P2P\ClientForm\obj\Debug\ClientForm.Properties.Resources.resources
 C:\Users\Gustavo\Desktop\ProEP\Second Increment\P2P\ClientForm\obj\Debug\ClientForm.csproj.GenerateResource.Cache
+C:\Users\Gustavo\Desktop\ProEP\Second Increment\P2P\ClientForm\bin\Debug\NetworkConnect.dll
+C:\Users\Gustavo\Desktop\ProEP\Second Increment\P2P\ClientForm\bin\Debug\NetworkConnect.pdb

@@ -13,6 +13,7 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using Lidgren.Network;
+using NetworkConnect;
 
 
 namespace ClientForm
@@ -20,6 +21,9 @@ namespace ClientForm
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public partial class Chat : Form, IPrivateChat
     {
+        List<IPAddress> IPs = new List<IPAddress>();
+        int basePort = 14242;
+
         User self;
         int selected_conversation = -1;
         List<User> private_list = new List<User>();
@@ -53,17 +57,9 @@ namespace ClientForm
 
             self = new User();
 
-            IPHostEntry host;
-            host = Dns.GetHostEntry(Dns.GetHostName());
-            foreach (IPAddress ip in host.AddressList)
-            {
-                if (ip.AddressFamily.ToString() == "InterNetwork")
-                {
-                    self.IP = ip;
-                }
-            }
+            IPs = NetworkConnect.Address.GetAllIPs();
 
-            if (self.IP == null)
+            if (IPs.Count == 0)
                 this.Close();
         }
 
@@ -79,55 +75,32 @@ namespace ClientForm
             tabControl.Show();
 
             // Opening own Inbox
-            Type contract = typeof(IPrivateChat);
-            NetPeerTcpBinding binding = new NetPeerTcpBinding("BindingUnsecure");
-            Uri address = new Uri("net.p2p://" + self.IP + ":14242/inbox");
-
-            selfHost = new ServiceHost(this);
-            selfHost.AddServiceEndpoint(contract, binding, address);
-            selfHost.Open();
-
-            
-
-            // Finding Broadcast Address of the Subnet
-            byte[] ipAddress = self.IP.GetAddressBytes();
-            byte[] subnetMask = GetSubnetMask(self.IP).GetAddressBytes();
-            byte[] broadcastAddress = new byte[4];
-            for (int i = 0; i < 4; ++i)
-                broadcastAddress[i] = Convert.ToByte(Convert.ToByte(ipAddress[i]) | (~Convert.ToByte(subnetMask[i]) & 255));
-
-            // Freeing connection 
-            Config = new NetPeerConfiguration("Chat");
-            Config.BroadcastAddress = new IPAddress(broadcastAddress);
-            Config.Port = 14242;
-            Config.EnableMessageType(NetIncomingMessageType.DiscoveryRequest);
-            Config.EnableMessageType(NetIncomingMessageType.DiscoveryResponse);
-            Peer = new NetPeer(Config);
-            Peer.Start();
-            Peer.DiscoverLocalPeers(14242);
-
-            NetWorker = new MyNetWorker(Peer, this);
-            NetThread = new Thread(NetWorker.ProcessNet);
-            NetThread.Start();
-        }
-
-
-        public static IPAddress GetSubnetMask(IPAddress address)
-        {
-            foreach (NetworkInterface adapter in NetworkInterface.GetAllNetworkInterfaces())
+            foreach (var ip in IPs)
             {
-                foreach (UnicastIPAddressInformation unicastIPAddressInformation in adapter.GetIPProperties().UnicastAddresses)
-                {
-                    if (unicastIPAddressInformation.Address.AddressFamily == AddressFamily.InterNetwork)
-                    {
-                        if (address.Equals(unicastIPAddressInformation.Address))
-                        {
-                            return unicastIPAddressInformation.IPv4Mask;
-                        }
-                    }
-                }
+                Type contract = typeof(IPrivateChat);
+                NetPeerTcpBinding binding = new NetPeerTcpBinding("BindingUnsecure");
+                Uri address = new Uri("net.p2p://" + ip + ":" + basePort + "/inbox");
+
+                selfHost = new ServiceHost(this);
+                selfHost.AddServiceEndpoint(contract, binding, address);
+                selfHost.Open();
+
+                Config = new NetPeerConfiguration("Chat");
+                Config.BroadcastAddress = NetworkConnect.Address.GetBroadcastAddress(ip, NetworkConnect.Address.GetSubnetMask(ip));
+                Config.Port = basePort;
+                Config.EnableMessageType(NetIncomingMessageType.DiscoveryRequest);
+                Config.EnableMessageType(NetIncomingMessageType.DiscoveryResponse);
+                Peer = new NetPeer(Config);
+                Peer.Start();
+                Peer.DiscoverLocalPeers(Config.Port);
+
+                // Start routine
+                NetWorker = new MyNetWorker(Peer, this);
+                NetThread = new Thread(NetWorker.ProcessNet);
+                NetThread.Start();
+
+                basePort++;
             }
-            throw new ArgumentException(string.Format("Can't find subnetmask for IP address '{0}'", address));
         }
 
 
@@ -142,18 +115,32 @@ namespace ClientForm
 
         public void callPeer(IPEndPoint endpoint)
         {
-            if (endpoint.Address.ToString() == self.IP.ToString())
-                return;
+            foreach (var ip in IPs)
+            {
+                if (endpoint.Address.ToString() == ip.ToString())
+                    return;
+            }
 
             Type contract = typeof(IPrivateChat);
             NetPeerTcpBinding binding = new NetPeerTcpBinding("BindingUnsecure");
-            Uri address = new Uri("net.p2p://" + endpoint.Address.ToString() + ":14242/inbox");
+            Uri address = new Uri("net.p2p://" + endpoint.Address.ToString() + ":" + endpoint.Port + "/inbox");
 
             ServiceHost testHost = new ServiceHost(this);
             testHost.AddServiceEndpoint(contract, binding, address);
 
             ChannelFactory<IPrivateChat> testChannelFactory = new ChannelFactory<IPrivateChat>(testHost.Description.Endpoints[0]);
             IPrivateChat testChannel = testChannelFactory.CreateChannel();
+
+            int IPIndex = NetworkConnect.Address.GetCorrectIPIndex(IPs, endpoint.Address);
+            if (IPIndex >= 0)
+            {
+                self.IP = IPs[IPIndex];
+                self.Port = basePort + IPIndex;
+            }
+            else
+            {
+                return;
+            }
 
             testChannel.answerPeer(self);
             testChannelFactory.Close();
@@ -175,7 +162,7 @@ namespace ClientForm
             // Estabilishing connection
             Type contract = typeof(IPrivateChat);
             NetPeerTcpBinding binding = new NetPeerTcpBinding("BindingUnsecure");
-            Uri address = new Uri("net.p2p://" + user.IP + ":14242/inbox");
+            Uri address = new Uri("net.p2p://" + user.IP + ":" + user.Port + "/inbox");
 
             // Creating Channel
             hosts.Add(new ServiceHost(this));
@@ -185,6 +172,17 @@ namespace ClientForm
 
             listOfConversations.Items.Add(user.username);
             conversations.Add(new List<string>());
+
+            int IPIndex = NetworkConnect.Address.GetCorrectIPIndex(IPs, user.IP);
+            if (IPIndex >= 0)
+            {
+                self.IP = IPs[IPIndex];
+                self.Port = basePort + IPIndex;
+            }
+            else
+            {
+                return;
+            }
 
             channels[index].answerPeer(self);
         }
@@ -349,7 +347,4 @@ namespace ClientForm
             }
         }
     }
-
-
-    
 }
