@@ -17,9 +17,11 @@ namespace ClientForm
     {
         public ChatClient proxy;
         User self;
+        Guid test;
         int selected_conversation = -1;
         List<int> order_of_contacts = new List<int>();
         List<User> private_list = new List<User>();
+        ChatMessage[] chat;
         List<List<string>> conversations = new List<List<string>>();
 
         // P2P
@@ -31,6 +33,7 @@ namespace ClientForm
         public Form1()
         {
             // C/S
+
             InstanceContext context = new InstanceContext(this);
             proxy = new ChatClient(context);
 
@@ -241,8 +244,12 @@ namespace ClientForm
 
             if (check)
             {
-                self = proxy.Subscribe(Guid.NewGuid(), textBox1.Text);
-                ChatMessage[] chat = proxy.GetLastMessages();
+                test = Guid.NewGuid();
+                self = new User();
+                self.username = textBox1.Text;
+                self.id = test;
+                proxy.Subscribe(test, textBox1.Text);
+                chat = proxy.GetLastMessages();
                 for (int i = 0; i < chat.Count(); ++i){
                     listChatroom.Items.Add(stringFromMessage(chat[i])); //Kyrill: removed the id from displayed message
                     conversationUserIds.Add(chat[i].user.id);
@@ -308,7 +315,7 @@ namespace ClientForm
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            proxy.Unsubscribe();
+            //proxy.Unsubscribe();
         }
 
         private void listOfConversations_MouseDoubleClick(object sender, MouseEventArgs e)

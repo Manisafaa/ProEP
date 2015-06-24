@@ -19,15 +19,14 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://192.168.0.2:1305/IISHostedChat/Service1.svc" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://192.168.0.2:1305/test/Service1.svc?wsdl" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="Service13.xsd" MetadataType="Schema" ID="f4024b7b-289c-47e5-bf76-22da3bb44d21" SourceId="1" SourceUrl="http://192.168.0.2:1305/IISHostedChat/Service1.svc?xsd=xsd1" />
-    <MetadataFile FileName="Service12.wsdl" MetadataType="Wsdl" ID="b2cf1503-348a-4851-8007-35858d2b7e44" SourceId="1" SourceUrl="http://192.168.0.2:1305/IISHostedChat/Service1.svc?wsdl" />
-    <MetadataFile FileName="Service131.xsd" MetadataType="Schema" ID="78bbc821-93b4-4c67-b211-637ef1b579ab" SourceId="1" SourceUrl="http://192.168.0.2:1305/IISHostedChat/Service1.svc?xsd=xsd0" />
-    <MetadataFile FileName="Service132.xsd" MetadataType="Schema" ID="340edffe-cd15-4fbb-b5a2-3e93caa25989" SourceId="1" SourceUrl="http://192.168.0.2:1305/IISHostedChat/Service1.svc?xsd=xsd2" />
-    <MetadataFile FileName="Service1.disco" MetadataType="Disco" ID="a42c9d12-fe2e-45a1-99cd-58b73730d158" SourceId="1" SourceUrl="http://192.168.0.2:1305/IISHostedChat/Service1.svc?disco" />
-    <MetadataFile FileName="Service121.wsdl" MetadataType="Wsdl" ID="a93c43b5-ae32-4ed6-80f7-bdce2f400aa8" SourceId="1" SourceUrl="http://192.168.0.2:1305/IISHostedChat/Service1.svc?wsdl=wsdl0" />
+    <MetadataFile FileName="Service13.xsd" MetadataType="Schema" ID="7eedaf40-29b4-4cd2-a618-0cb21b7b78aa" SourceId="1" SourceUrl="http://192.168.0.2:1305/test/Service1.svc?xsd=xsd0" />
+    <MetadataFile FileName="Service121.wsdl" MetadataType="Wsdl" ID="1aa03a04-9614-44af-883d-1499d8153ad3" SourceId="1" SourceUrl="http://192.168.0.2:1305/test/Service1.svc?wsdl" />
+    <MetadataFile FileName="Service131.xsd" MetadataType="Schema" ID="d08d1b6a-754a-4486-80ad-c2abfc9fead6" SourceId="1" SourceUrl="http://192.168.0.2:1305/test/Service1.svc?xsd=xsd2" />
+    <MetadataFile FileName="Service132.xsd" MetadataType="Schema" ID="7a439ade-f4cb-4735-94e1-3834afddf705" SourceId="1" SourceUrl="http://192.168.0.2:1305/test/Service1.svc?xsd=xsd1" />
+    <MetadataFile FileName="Service12.wsdl" MetadataType="Wsdl" ID="38f73e35-7ce1-453a-8d04-09f03274b31f" SourceId="1" SourceUrl="http://192.168.0.2:1305/test/Service1.svc?wsdl=wsdl0" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
