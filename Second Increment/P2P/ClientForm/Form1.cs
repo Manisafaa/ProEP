@@ -96,7 +96,7 @@ namespace ClientForm
                     }
                 } while (tryAgain && attempts <= 100);
 
-                if (!failToConnect)
+                if (failToConnect)
                     continue;
 
                 NetPeerConfiguration Config = new NetPeerConfiguration("Chat");
@@ -112,9 +112,8 @@ namespace ClientForm
                 NetThread.Add(new Thread(NetWorker.ProcessNet));
                 NetThread.Last().Start();
 
-                for (int i = basePort; i < basePort + 10; ++i)
-                    Peer.DiscoverLocalPeers(i);
-
+                Peer.DiscoverLocalPeers(Config.Port);
+                
                 port++;
             }
 
@@ -515,16 +514,8 @@ namespace ClientForm
                     NetIncomingMessage msg;
                     while ((msg = peer.ReadMessage()) != null)
                     {
-                        switch (msg.MessageType)
-                        {
-                            case NetIncomingMessageType.DiscoveryRequest:
-                                peer.SendDiscoveryResponse(null, msg.SenderEndPoint);
-                                netManager.callPeer(msg.SenderEndPoint);
-                                break;
-                            case NetIncomingMessageType.DiscoveryResponse:
-                                netManager.callPeer(msg.SenderEndPoint);
-                                break;
-                        }
+                        if (msg.MessageType == NetIncomingMessageType.DiscoveryRequest)
+                            netManager.callPeer(msg.SenderEndPoint);
                     }
                 }
             }
