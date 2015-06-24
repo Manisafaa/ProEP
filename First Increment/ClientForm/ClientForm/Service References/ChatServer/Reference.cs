@@ -15,67 +15,6 @@ namespace ClientForm.ChatServer {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ChatMessage", Namespace="http://schemas.datacontract.org/2004/07/ChatService")]
-    [System.SerializableAttribute()]
-    public partial class ChatMessage : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string textField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private ClientForm.ChatServer.User userField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string text {
-            get {
-                return this.textField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.textField, value) != true)) {
-                    this.textField = value;
-                    this.RaisePropertyChanged("text");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public ClientForm.ChatServer.User user {
-            get {
-                return this.userField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.userField, value) != true)) {
-                    this.userField = value;
-                    this.RaisePropertyChanged("user");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="User", Namespace="http://schemas.datacontract.org/2004/07/ChatService")]
     [System.SerializableAttribute()]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(ClientForm.ChatServer.ChatMessage[]))]
@@ -153,15 +92,76 @@ namespace ClientForm.ChatServer {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ChatMessage", Namespace="http://schemas.datacontract.org/2004/07/ChatService")]
+    [System.SerializableAttribute()]
+    public partial class ChatMessage : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string textField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private ClientForm.ChatServer.User userField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string text {
+            get {
+                return this.textField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.textField, value) != true)) {
+                    this.textField = value;
+                    this.RaisePropertyChanged("text");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public ClientForm.ChatServer.User user {
+            get {
+                return this.userField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.userField, value) != true)) {
+                    this.userField = value;
+                    this.RaisePropertyChanged("user");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(Namespace="Server", ConfigurationName="ChatServer.IChat", CallbackContract=typeof(ClientForm.ChatServer.IChatCallback))]
     public interface IChat {
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="Server/IChat/Subscribe")]
-        void Subscribe(System.Guid id, string username);
+        [System.ServiceModel.OperationContractAttribute(Action="Server/IChat/Subscribe", ReplyAction="Server/IChat/SubscribeResponse")]
+        ClientForm.ChatServer.User Subscribe(System.Guid id, string username);
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="Server/IChat/Subscribe")]
-        System.Threading.Tasks.Task SubscribeAsync(System.Guid id, string username);
+        [System.ServiceModel.OperationContractAttribute(Action="Server/IChat/Subscribe", ReplyAction="Server/IChat/SubscribeResponse")]
+        System.Threading.Tasks.Task<ClientForm.ChatServer.User> SubscribeAsync(System.Guid id, string username);
         
         [System.ServiceModel.OperationContractAttribute(Action="Server/IChat/GetLastMessages", ReplyAction="Server/IChat/GetLastMessagesResponse")]
         ClientForm.ChatServer.ChatMessage[] GetLastMessages();
@@ -188,10 +188,10 @@ namespace ClientForm.ChatServer {
         System.Threading.Tasks.Task SendPrivateMessageAsync(System.Guid from, string message, System.Guid to);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="Server/IChat/Unsubscribe")]
-        void Unsubscribe(System.Guid id);
+        void Unsubscribe();
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="Server/IChat/Unsubscribe")]
-        System.Threading.Tasks.Task UnsubscribeAsync(System.Guid id);
+        System.Threading.Tasks.Task UnsubscribeAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -235,11 +235,11 @@ namespace ClientForm.ChatServer {
                 base(callbackInstance, binding, remoteAddress) {
         }
         
-        public void Subscribe(System.Guid id, string username) {
-            base.Channel.Subscribe(id, username);
+        public ClientForm.ChatServer.User Subscribe(System.Guid id, string username) {
+            return base.Channel.Subscribe(id, username);
         }
         
-        public System.Threading.Tasks.Task SubscribeAsync(System.Guid id, string username) {
+        public System.Threading.Tasks.Task<ClientForm.ChatServer.User> SubscribeAsync(System.Guid id, string username) {
             return base.Channel.SubscribeAsync(id, username);
         }
         
@@ -275,12 +275,12 @@ namespace ClientForm.ChatServer {
             return base.Channel.SendPrivateMessageAsync(from, message, to);
         }
         
-        public void Unsubscribe(System.Guid id) {
-            base.Channel.Unsubscribe(id);
+        public void Unsubscribe() {
+            base.Channel.Unsubscribe();
         }
         
-        public System.Threading.Tasks.Task UnsubscribeAsync(System.Guid id) {
-            return base.Channel.UnsubscribeAsync(id);
+        public System.Threading.Tasks.Task UnsubscribeAsync() {
+            return base.Channel.UnsubscribeAsync();
         }
     }
 }

@@ -245,10 +245,7 @@ namespace ClientForm
             if (check)
             {
                 test = Guid.NewGuid();
-                self = new User();
-                self.username = textBox1.Text;
-                self.id = test;
-                proxy.Subscribe(test, textBox1.Text);
+                self = proxy.Subscribe(test, textBox1.Text);
                 chat = proxy.GetLastMessages();
                 for (int i = 0; i < chat.Count(); ++i){
                     listChatroom.Items.Add(stringFromMessage(chat[i])); //Kyrill: removed the id from displayed message
@@ -315,7 +312,7 @@ namespace ClientForm
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            //proxy.Unsubscribe();
+            proxy.Unsubscribe();
         }
 
         private void listOfConversations_MouseDoubleClick(object sender, MouseEventArgs e)

@@ -13,7 +13,7 @@
       </wsp:All>
     </wsp:ExactlyOne>
   </wsp:Policy>
-  <wsdl:import namespace="Server" location="http://192.168.0.2:1305/test/Service1.svc?wsdl=wsdl0" />
+  <wsdl:import namespace="Server" location="http://192.168.1.2:1305/test/Service1.svc?wsdl=wsdl0" />
   <wsdl:types />
   <wsdl:binding name="WSDualHttpBinding_IChat" type="i0:IChat">
     <wsp:PolicyReference URI="#WSDualHttpBinding_IChat_policy" />
@@ -23,6 +23,9 @@
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetLastMessages">
       <soap12:operation soapAction="Server/IChat/GetLastMessages" style="document" />
@@ -84,9 +87,9 @@
   </wsdl:binding>
   <wsdl:service name="Service1">
     <wsdl:port name="WSDualHttpBinding_IChat" binding="tns:WSDualHttpBinding_IChat">
-      <soap12:address location="http://192.168.0.2:1305/test/Service1.svc" />
+      <soap12:address location="http://192.168.1.2:1305/test/Service1.svc" />
       <wsa10:EndpointReference>
-        <wsa10:Address>http://192.168.0.2:1305/test/Service1.svc</wsa10:Address>
+        <wsa10:Address>http://192.168.1.2:1305/test/Service1.svc</wsa10:Address>
       </wsa10:EndpointReference>
     </wsdl:port>
   </wsdl:service>
