@@ -95,6 +95,7 @@
             this.listChatroom.Name = "listChatroom";
             this.listChatroom.Size = new System.Drawing.Size(276, 251);
             this.listChatroom.TabIndex = 0;
+            this.listChatroom.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listChatroom_MouseDoubleClick);
             // 
             // tabPrivate
             // 
