@@ -39,6 +39,8 @@ namespace ClientForm
         {
             InitializeComponent();
 
+            System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = false;
+
             tabControl.Hide();
             loginButton.Enabled = false;
             sendButtonPublic.Enabled = false;
@@ -67,17 +69,19 @@ namespace ClientForm
             loginButton.Hide();
             tabControl.Show();
 
+            int port = basePort;
+
             // Opening own Inboxes
             foreach (var ip in IPs)
             {
                 Type contract = typeof(IPrivateChat);
                 NetPeerTcpBinding binding = new NetPeerTcpBinding("BindingUnsecure");
-                Uri address = new Uri("net.p2p://" + ip + ":" + basePort + "/inbox");
+                Uri address = new Uri("net.p2p://" + ip + ":" + port + "/inbox");
 
                 ServiceHost selfHost = new ServiceHost(this);
                 selfHost.AddServiceEndpoint(contract, binding, address);
 
-                bool tryAgain;
+                bool tryAgain, failToConnect = false;
                 int attempts = 0;
                 do
                 {
@@ -85,39 +89,37 @@ namespace ClientForm
                     try { selfHost.Open(); }
                     catch { tryAgain = true; attempts++; }
 
-                    if (attempts > 10)
+                    if (attempts > 100)
                     {
-                        MessageBox.Show("The program failed to estabilish a connection with other users.");
-                        this.Close();
+                        MessageBox.Show("One of your IPs (" + ip.ToString() + ") failed to estabilish a connection with other users.");
+                        failToConnect = true;
                     }
-                } while (tryAgain);
+                } while (tryAgain && attempts <= 100);
 
-                NetPeer Peer;
-                NetPeerConfiguration Config;
-                MyNetWorker NetWorker;
+                if (!failToConnect)
+                    continue;
 
-                Config = new NetPeerConfiguration("Chat");
+                NetPeerConfiguration Config = new NetPeerConfiguration("Chat");
                 Config.BroadcastAddress = NetworkConnect.Address.GetBroadcastAddress(ip, NetworkConnect.Address.GetSubnetMask(ip));
-                Config.Port = basePort;
+                Config.Port = port;
                 Config.EnableMessageType(NetIncomingMessageType.DiscoveryRequest);
                 Config.EnableMessageType(NetIncomingMessageType.DiscoveryResponse);
-                Peer = new NetPeer(Config);
-                Peer.Start();
-                Peer.DiscoverLocalPeers(Config.Port);
 
-                // Start routine
-                NetWorker = new MyNetWorker(Peer, this);
+                NetPeer Peer = new NetPeer(Config);
+                Peer.Start();
+
+                MyNetWorker NetWorker = new MyNetWorker(Peer, this);
                 NetThread.Add(new Thread(NetWorker.ProcessNet));
                 NetThread.Last().Start();
 
-                basePort++;
+                for (int i = basePort; i < basePort + 10; ++i)
+                    Peer.DiscoverLocalPeers(i);
+
+                port++;
             }
 
-            OnlineUpdater onlineUpdater = new OnlineUpdater(this);
-            updater = new Thread(onlineUpdater.CheckUsers);
+            updater = new Thread(CheckUsers);
             updater.Start();
-
-            basePort -= IPs.Count();
         }
 
 
@@ -202,7 +204,7 @@ namespace ClientForm
             ChannelFactory<IPrivateChat> channelFactory = new ChannelFactory<IPrivateChat>(host.Description.Endpoints[0]);
             channels.Add(channelFactory.CreateChannel());
 
-            listOfConversations.Items.Add(user.username);
+            listOfConversations.Items.Add(user.username + " (online)");
             conversations.Add(new List<string>());
 
             // Completing User
@@ -244,10 +246,24 @@ namespace ClientForm
 
         private void sendButtonPublic_Click(object sender, EventArgs e)
         {
+            Message msg = new Message(Guid.NewGuid(), self.id, textTypingPublic.Text);
+
+            chatroom.Add(msg);
             listChatroom.Items.Add("You: " + textTypingPublic.Text);
 
             for (int i = 0; i < channels.Count; ++i)
-                channels[i].SendPublicMessage(new Message(self.id, Guid.NewGuid(), textTypingPublic.Text));
+            {
+                try 
+                {
+                    channels[i].SendPublicMessage(msg);
+                }
+                catch
+                {
+                    string warning = "Message could not be sent to user " + private_list[i].username + " (" + private_list[i].id + ").";
+                    listChatroom.Items.Add(warning);
+                    chatroom.Add(new Message(Guid.NewGuid(), self.id, warning));
+                }
+            }
 
             sendButtonPublic.Enabled = false;
             textTypingPublic.Clear();
@@ -345,13 +361,49 @@ namespace ClientForm
         }
 
 
+        public void updateContact(Guid Id, bool status)
+        {
+            for (int i = 0; i < private_list.Count; ++i)
+            {
+                if (Id == private_list[i].id)
+                {
+                    if (status == true)
+                    {
+                        listOfConversations.Items[i] = private_list[i].username + " (online)";
+                        if (selected_conversation == i)
+                            textTypingPrivate.Enabled = true;
+                    }
+                    else
+                    {
+                        listOfConversations.Items[i] = private_list[i].username + " (offline)";
+                        if (selected_conversation == i)
+                        {
+                            textTypingPrivate.Clear();
+                            textTypingPrivate.Enabled = false;
+                        }
+                    }
+                    return;
+                }
+            }
+        }
+
+
         private void sendButtonPrivate_Click(object sender, EventArgs e)
         {
             string new_message = "You: " + textTypingPrivate.Text;
-            conversations[selected_conversation].Add(new_message);
-            listPrivateConversation.Items.Add(new_message);
 
-            channels[selected_conversation].SendPrivateMessage(new Message(self.id, Guid.NewGuid(), textTypingPrivate.Text));
+            try
+            {
+                channels[selected_conversation].SendPrivateMessage(new Message(Guid.NewGuid(), self.id, textTypingPrivate.Text));
+                conversations[selected_conversation].Add(new_message);
+                listPrivateConversation.Items.Add(new_message);
+            }
+            catch
+            {
+                string warning = "Message could not be sent to the user.";
+                conversations[selected_conversation].Add(warning);
+                listPrivateConversation.Items.Add(warning);
+            }
 
             sendButtonPrivate.Enabled = false;
             textTypingPrivate.Clear();
@@ -411,6 +463,37 @@ namespace ClientForm
         }
 
 
+        public void CheckUsers()
+        {
+            while (true)
+            {
+                Thread.Sleep(1000);
+                for (int i = 0; i < private_list.Count; ++i)
+                {
+                    try
+                    {
+                        channels[i].UpdateSelf(self.id, DateTime.Now);
+                    }
+                    finally
+                    {
+                        User user = private_list[i];
+
+                        if ((DateTime.Now - user.lastStamp).TotalSeconds > 5 && user.online == true)
+                        {
+                            user.online = false;
+                            updateContact(user.id, user.online);
+                        }
+                        else if ((DateTime.Now - user.lastStamp).TotalSeconds < 5)
+                        {
+                            user.online = true;
+                            updateContact(user.id, user.online);
+                        }
+                    }
+                }
+            }
+        }
+
+
         public class MyNetWorker
         {
             NetPeer peer = null;
@@ -441,49 +524,6 @@ namespace ClientForm
                             case NetIncomingMessageType.DiscoveryResponse:
                                 netManager.callPeer(msg.SenderEndPoint);
                                 break;
-                        }
-                    }
-                }
-            }
-        }
-
-
-        public class OnlineUpdater
-        {
-            Chat userManager = null;
-
-            public OnlineUpdater(Chat theUserManager)
-            {
-                userManager = theUserManager;
-            }
-
-            public void CheckUsers()
-            {
-                while (true)
-                {
-                    Thread.Sleep(1000);
-                    for (int i = 0; i < userManager.private_list.Count; ++i)
-                    {
-                        userManager.channels[i].UpdateSelf(userManager.self.id, DateTime.Now);
-
-                        User user = userManager.private_list[i];
-
-                        if ((user.lastStamp - DateTime.Now).TotalSeconds > 10 && user.online == true)
-                        {
-                            userManager.listOfConversations.Items[i] = user.username + " (offline)";
-                            user.online = false;
-                            if (userManager.selected_conversation == i)
-                            {
-                                userManager.textTypingPrivate.Text = "";
-                                userManager.textTypingPrivate.Enabled = false;
-                            }
-                        }
-                        else if (user.online == false)
-                        {
-                            userManager.listOfConversations.Items[i] = user.username + " (online)";
-                            user.online = true;
-                            if (userManager.selected_conversation == i)
-                                userManager.textTypingPrivate.Enabled = true;
                         }
                     }
                 }
