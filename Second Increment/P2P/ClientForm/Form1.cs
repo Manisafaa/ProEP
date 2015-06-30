@@ -31,6 +31,7 @@ namespace ClientForm
         List<Message> chatroom = new List<Message>();
         List<List<string>> conversations = new List<List<string>>();
 
+        List<NetPeer> Peers = new List<NetPeer>();
         List<Thread> NetThread = new List<Thread>();
         Thread updater;
         List<IPrivateChat> channels = new List<IPrivateChat>();
@@ -105,14 +106,15 @@ namespace ClientForm
                 Config.EnableMessageType(NetIncomingMessageType.DiscoveryRequest);
                 Config.EnableMessageType(NetIncomingMessageType.DiscoveryResponse);
 
-                NetPeer Peer = new NetPeer(Config);
-                Peer.Start();
+                int index = Peers.Count;
+                Peers.Add(new NetPeer(Config));
+                Peers[index].Start();
 
-                MyNetWorker NetWorker = new MyNetWorker(Peer, this);
+                MyNetWorker NetWorker = new MyNetWorker(Peers[index], this);
                 NetThread.Add(new Thread(NetWorker.ProcessNet));
                 NetThread.Last().Start();
 
-                Peer.DiscoverLocalPeers(Config.Port);
+                Peers[index].DiscoverLocalPeers(Config.Port);
                 
                 port++;
             }
@@ -467,7 +469,12 @@ namespace ClientForm
             while (true)
             {
                 Thread.Sleep(1000);
-                for (int i = 0; i < private_list.Count; ++i)
+
+                for (int i = 0; i < IPs.Count; ++i) {
+                    Peers[i].DiscoverLocalPeers(basePort+i);
+                }
+                
+                for (int i = 0; i < private_list.Count && i < channels.Count; ++i)
                 {
                     try
                     {
