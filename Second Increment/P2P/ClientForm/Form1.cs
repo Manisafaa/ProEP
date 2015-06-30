@@ -321,6 +321,9 @@ namespace ClientForm
                         index = i;
                 }
 
+
+                if (index == -1)
+                    return;
                 if (!private_list[index].online)
                     return;
 
@@ -470,7 +473,7 @@ namespace ClientForm
             {
                 Thread.Sleep(1000);
 
-                for (int i = 0; i < IPs.Count; ++i) {
+                for (int i = 0; i < Peers.Count; ++i) {
                     Peers[i].DiscoverLocalPeers(basePort+i);
                 }
                 
@@ -480,20 +483,23 @@ namespace ClientForm
                     {
                         channels[i].UpdateSelf(self.id, DateTime.Now);
                     }
-                    finally
+                    catch
                     {
-                        User user = private_list[i];
+                        --i;
+                        continue;
+                    }
 
-                        if ((DateTime.Now - user.lastStamp).TotalSeconds > 5 && user.online == true)
-                        {
-                            user.online = false;
-                            updateContact(user.id, user.online);
-                        }
-                        else if ((DateTime.Now - user.lastStamp).TotalSeconds < 5)
-                        {
-                            user.online = true;
-                            updateContact(user.id, user.online);
-                        }
+                    User user = private_list[i];
+
+                    if ((DateTime.Now - user.lastStamp).TotalSeconds > 5 && user.online == true)
+                    {
+                        user.online = false;
+                        updateContact(user.id, user.online);
+                    }
+                    else if ((DateTime.Now - user.lastStamp).TotalSeconds < 5)
+                    {
+                        user.online = true;
+                        updateContact(user.id, user.online);
                     }
                 }
             }
