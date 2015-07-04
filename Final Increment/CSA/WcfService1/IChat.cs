@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
@@ -12,8 +11,14 @@ namespace ChatService
     [ServiceContract(Namespace = "Server", CallbackContract = typeof(IChatCallback))]
     public interface IChat
     {
+        //Kyrill: added Guid id to Subscribe so that the client can create its own id
+
+        
         [OperationContract]
-        User Subscribe(Guid id, string username, List<IPAddress> ips, List<IPAddress> sms);
+        User Subscribe(Guid id, string username);
+
+        [OperationContract]
+        List<ChatMessage> GetLastMessages();
 
         [OperationContract(IsOneWay = true)]
         void SendPublicMessage(Guid from, string message);
@@ -32,13 +37,24 @@ namespace ChatService
     public interface IChatCallback
     {
         [OperationContract(IsOneWay = true)]
-        void BroadcastMessage(User sender, string message);
+        void BroadcastMessage(ChatMessage message);
 
         [OperationContract(IsOneWay = true)]
-        void DeliverMessage(User sender, string message);
+        void DeliverMessage(ChatMessage message);
 
-        [OperationContract(IsOneWay = true)]
-        void OpenHost(User from);
+        [OperationContract]
+        bool OpenHost(User from);
+    }
+
+
+    [DataContract]
+    public class ChatMessage
+    {
+        [DataMember]
+        public User user { get; set; }
+
+        [DataMember]
+        public string text { get; set; }
     }
 
 
@@ -46,19 +62,11 @@ namespace ChatService
     public class User
     {
         [DataMember]
+        //Kyrill: int id replaced by Guid id
         public Guid id { get; set; }
 
         [DataMember]
         public string username { get; set; }
-
-        [DataMember]
-        public bool isInSameSubnet { get; set; }
-
-        [DataMember]
-        public List<IPAddress> IPs { get; set; }
-
-        [DataMember]
-        public List<IPAddress> SMs { get; set; }
 
         [DataMember]
         public IChatCallback callback { get; set; }

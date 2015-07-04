@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
@@ -10,60 +9,83 @@ using ChatService;
 
 namespace ChatService
 {
+    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Service1" in code, svc and config file together.
+    // NOTE: In order to launch WCF Test Client for testing this service, please select Service1.svc or Service1.svc.cs at the Solution Explorer and start debugging.
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple), CallbackBehavior(UseSynchronizationContext = false)]
     public class Service1 : IChat
     {
-        List<string> lastMessages = new List<string>();
-        List<User> lastSenders = new List<User>();
+
+        List<ChatMessage> lastMessages = new List<ChatMessage>();
+
+        //Kyrill: List replaced by dictionary to use Guid
+        //List<User> users = new List<User>();
         Dictionary<Guid, User> users = new Dictionary<Guid, User>();
 
-        public User Subscribe(Guid id, string username, List<IPAddress> ips, List<IPAddress> sms)
+
+        public User Subscribe(Guid id, string username)
         {
+
             User new_user = new User();
-            new_user.id = id;
+
+            //Kyrill: List replaced by dictionary to use Guid
+            new_user.id = id;//users.Count;
             new_user.username = username;
-            new_user.isInSameSubnet = false;
-            new_user.IPs = ips;
-            new_user.SMs = sms;
             new_user.callback = OperationContext.Current.GetCallbackChannel<IChatCallback>();
 
-            //for (int i = 0; i < lastMessages.Count; ++i)
-            //    new_user.callback.BroadcastMessage(lastSenders[i], lastMessages[i]);
-
+            //Kyrill: List replaced by dictionary to use Guid
             users.Add(new_user.id, new_user);
             return new_user;
         }
 
+        public List<ChatMessage> GetLastMessages()
+        {
+            return lastMessages;
+        }
+
         public void SendPublicMessage(Guid from, string message)
         {
+            ChatMessage new_message = new ChatMessage();
+            new_message.user = users[from];
+            new_message.text = message;
+
+            //Kyrill: List replaced by dictionary to use Guid
+            /*
+            for (int i = 0; i < users.Count; ++i)
+            {
+                if (users[i].callback != null)
+                    users[i].callback.BroadcastMessage(new_message);
+            }*/
+
+
             foreach (var dictValue in users)
             {
                 User user = dictValue.Value;
-                if (user.callback != null && user.callback != OperationContext.Current.GetCallbackChannel<IChatCallback>())
-                    user.callback.BroadcastMessage(users[from], message);
+                if (user.callback != null)
+                    user.callback.BroadcastMessage(new_message);
             }
 
             if (lastMessages.Count > 5)
-            {
                 lastMessages.RemoveAt(0);
-                lastSenders.RemoveAt(0);
-            }
-
-            lastMessages.Add(message);
-            lastSenders.Add(users[from]);
+            lastMessages.Add(new_message);
         }
 
         public User ConnectWithUser(Guid from, Guid to)
         {
             User from_user = new User();
-
+            //Kyrill: List replaced by dictionary to use Guid
+            /*
+                        for (int i = 0; i < users.Count; ++i) {
+                            if (from == users[i].id)
+                                from_user = users[i];
+                        }
+                        */
             if (users[from] != null)
                 from_user = users[from];
 
             if (users[to].callback != null)
             {
-                users[to].callback.OpenHost(from_user);
-                return users[to];
+                if (users[to].callback.OpenHost(from_user))
+                    return users[to];
             }
 
             return null;
@@ -71,19 +93,37 @@ namespace ChatService
 
         public void SendPrivateMessage(Guid from, string message, Guid to)
         {
+            ChatMessage new_message = new ChatMessage();
+            new_message.user = users[from];
+            new_message.text = message;
+
             if (users[to].callback != null)
             {
-                users[to].callback.DeliverMessage(users[from], message);
+                users[to].callback.DeliverMessage(new_message);
             }
+            /*else
+            {
+                ChatMessage error_message = new ChatMessage();
+                error_message.user = users[to];
+                error_message.text = "The user logged out";
+
+                users[from].callback.DeliverMessage(error_message);
+            }*/
+
         }
 
         public void Unsubscribe()
         {
+
+           // if (users[id].callback == OperationContext.Current.GetCallbackChannel<IChatCallback>())
             foreach (var dictValue in users)
             {
                 if (dictValue.Value.callback == OperationContext.Current.GetCallbackChannel<IChatCallback>())
+                {
                     dictValue.Value.callback = null;
+                }
             }
+            //    users[id].callback = null;
         }
     }
 }
