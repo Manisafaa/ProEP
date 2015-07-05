@@ -94,14 +94,14 @@ namespace ClientForm
                 listPrivateConversation.Items.Add(new_message);
         }
 
-        public bool OpenHost(User user)
+        public void OpenHost(User user)
         {
             // Called by the service to try to initialize a peer-to-peer connection to another user's inbox.
  
             for (int i = 0; i < private_list.Count; ++i)
             {
                 if (user.id == private_list[i].id)
-                    return false;
+                    return;
             }
 
             Type contract = typeof(IPrivateChat);
@@ -113,20 +113,18 @@ namespace ClientForm
             if (ip != null)
                 address = new Uri("net.p2p://" + ip + "/inbox");
             else
-                return false;
+                return;
 
             ServiceHost host = new ServiceHost(this);
             host.AddServiceEndpoint(contract, binding, address);
             ChannelFactory<IPrivateChat> channelFactory = new ChannelFactory<IPrivateChat>(host.Description.Endpoints[0]);
             channels.Add(channelFactory.CreateChannel());
-            host.Close();
-            channelFactory.Close();
+            //host.Close();
+            //channelFactory.Close();
 
             listOfConversations.Items.Add(user.username);
             private_list.Add(user);
             conversations.Add(new List<string>());
-            
-            return true;
         }
 
 
@@ -168,7 +166,15 @@ namespace ClientForm
             // Method that subscribes the user on the server.
 
             Guid id = Guid.NewGuid();
-            self = proxy.Subscribe(id, textLogin.Text, Address.GetAllIPs(), Address.GetAllSubnetMasks(Address.GetAllIPs()));
+            try
+            {
+                self = proxy.Subscribe(id, textLogin.Text, Address.GetAllIPs(), Address.GetAllSubnetMasks(Address.GetAllIPs()));
+            }
+            catch
+            {
+                MessageBox.Show("Unable to connect.");
+                return;
+            }
 
             // User opens own inbox to other users
             foreach (var ip in self.IPs)
@@ -179,7 +185,19 @@ namespace ClientForm
 
                 ServiceHost host = new ServiceHost(this);
                 host.AddServiceEndpoint(contract, binding, address);
-                host.Open();
+                
+                bool tryAgain;
+                int attempts = 0;
+
+                do
+                {
+                    tryAgain = false;
+                    try { host.Open(); }
+                    catch { tryAgain = true; attempts++; }
+
+                    if (attempts > 100)
+                        MessageBox.Show("One of your IPs (" + ip.ToString() + ") failed to open a direct connection for other users.");
+                } while (tryAgain && attempts <= 100);
             }
 
             loginLabel.Hide();
@@ -200,11 +218,13 @@ namespace ClientForm
         {
             // Method that sends a public message to the server for it to broadcast it.
 
-            listChatroom.Items.Add("You: " + textTypingPrivate.Text);
+            listChatroom.Items.Add("You: " + textTypingChat.Text);
 
             proxy.SendPublicMessage(self.id, textTypingChat.Text);
+            
             sendButtonChat.Enabled = false;
             textTypingChat.Clear();
+            conversationUserIds.Add(new Guid());
         }
 
         private void listChatroom_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -228,7 +248,16 @@ namespace ClientForm
 
             if (index == -1)
             {
-                User new_user = proxy.ConnectWithUser(self.id, selectedUserId);
+                User new_user;
+
+                try
+                {
+                    new_user = proxy.ConnectWithUser(self.id, selectedUserId);
+                }
+                catch
+                {
+                    return;
+                }
 
                 if (new_user == null)
                     return;
@@ -299,24 +328,35 @@ namespace ClientForm
 
         private void textTypingPrivate_TextChanged(object sender, EventArgs e)
         {
-            if (textTypingChat.Text != "")
-                sendButtonChat.Enabled = true;
+            if (textTypingPrivate.Text != "")
+                sendButtonPrivate.Enabled = true;
             else
-                sendButtonChat.Enabled = false;
+                sendButtonPrivate.Enabled = false;
         }
 
         private void sendButtonPrivate_Click(object sender, EventArgs e)
         {
             // Method that sends a message to another user in a private conversation.
 
-            string new_message = "You: " + textTypingPrivate.Text.ToString();
+            string new_message = "You: " + textTypingPrivate.Text;
             conversations[selected_conversation].Add(new_message);
             listPrivateConversation.Items.Add(new_message);
 
             if (private_list[selected_conversation].isInSameSubnet)
-                channels[selected_conversation].SendMessage(self.id, textTypingPrivate.Text.ToString());
+            {
+                try
+                {
+                    channels[selected_conversation].SendMessage(self.id, textTypingPrivate.Text);
+                }
+                catch
+                {
+                    proxy.SendPrivateMessage(self.id, textTypingPrivate.Text, private_list[selected_conversation].id);
+                }
+            }
             else
+            {
                 proxy.SendPrivateMessage(self.id, textTypingPrivate.Text, private_list[selected_conversation].id);
+            }
 
             sendButtonPrivate.Enabled = false;
             textTypingPrivate.Clear();
@@ -337,7 +377,8 @@ namespace ClientForm
         {
             // Method that unsubscribes the user from the server.
 
-            proxy.Unsubscribe();
+            if (self != null)
+                proxy.Unsubscribe();
         }
     }
 }

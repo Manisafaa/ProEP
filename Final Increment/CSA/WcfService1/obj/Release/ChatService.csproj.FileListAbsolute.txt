@@ -12,3 +12,9 @@ C:\Users\Mani\Documents\Visual Studio 2012\Projects\WcfService1 - Copy - Copy\Wc
 C:\Users\Mani\Documents\Visual Studio 2012\Projects\WcfService1 - Copy - Copy\WcfService1\obj\Release\ChatService.csprojResolveAssemblyReference.cache
 C:\Users\Mani\Documents\Visual Studio 2012\Projects\WcfService1 - Copy - Copy\WcfService1\obj\Release\WcfService1.dll
 C:\Users\Mani\Documents\Visual Studio 2012\Projects\WcfService1 - Copy - Copy\WcfService1\obj\Release\WcfService1.pdb
+C:\Users\Gustavo\Desktop\ProEP\Final Increment\CSA\WcfService1\bin\WcfService1.dll.config
+C:\Users\Gustavo\Desktop\ProEP\Final Increment\CSA\WcfService1\bin\WcfService1.dll
+C:\Users\Gustavo\Desktop\ProEP\Final Increment\CSA\WcfService1\bin\WcfService1.pdb
+C:\Users\Gustavo\Desktop\ProEP\Final Increment\CSA\WcfService1\obj\Release\ChatService.csprojResolveAssemblyReference.cache
+C:\Users\Gustavo\Desktop\ProEP\Final Increment\CSA\WcfService1\obj\Release\WcfService1.dll
+C:\Users\Gustavo\Desktop\ProEP\Final Increment\CSA\WcfService1\obj\Release\WcfService1.pdb

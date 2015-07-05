@@ -17,18 +17,29 @@ namespace ClientForm.ChatServer {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="User", Namespace="http://schemas.datacontract.org/2004/07/ChatService")]
     [System.SerializableAttribute()]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(ClientForm.ChatServer.ChatMessage[]))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(ClientForm.ChatServer.ChatMessage))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(ushort[]))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(System.Net.IPAddress[]))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(System.Net.IPAddress))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(System.Net.Sockets.AddressFamily))]
     public partial class User : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Net.IPAddress[] IPsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Net.IPAddress[] SMsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private object callbackField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.Guid idField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool isInSameSubnetField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string usernameField;
@@ -40,6 +51,32 @@ namespace ClientForm.ChatServer {
             }
             set {
                 this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Net.IPAddress[] IPs {
+            get {
+                return this.IPsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.IPsField, value) != true)) {
+                    this.IPsField = value;
+                    this.RaisePropertyChanged("IPs");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Net.IPAddress[] SMs {
+            get {
+                return this.SMsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.SMsField, value) != true)) {
+                    this.SMsField = value;
+                    this.RaisePropertyChanged("SMs");
+                }
             }
         }
         
@@ -70,6 +107,19 @@ namespace ClientForm.ChatServer {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool isInSameSubnet {
+            get {
+                return this.isInSameSubnetField;
+            }
+            set {
+                if ((this.isInSameSubnetField.Equals(value) != true)) {
+                    this.isInSameSubnetField = value;
+                    this.RaisePropertyChanged("isInSameSubnet");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public string username {
             get {
                 return this.usernameField;
@@ -92,82 +142,15 @@ namespace ClientForm.ChatServer {
         }
     }
     
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ChatMessage", Namespace="http://schemas.datacontract.org/2004/07/ChatService")]
-    [System.SerializableAttribute()]
-    public partial class ChatMessage : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string textField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private ClientForm.ChatServer.User userField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string text {
-            get {
-                return this.textField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.textField, value) != true)) {
-                    this.textField = value;
-                    this.RaisePropertyChanged("text");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public ClientForm.ChatServer.User user {
-            get {
-                return this.userField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.userField, value) != true)) {
-                    this.userField = value;
-                    this.RaisePropertyChanged("user");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(Namespace="Server", ConfigurationName="ChatServer.IChat", CallbackContract=typeof(ClientForm.ChatServer.IChatCallback))]
     public interface IChat {
         
         [System.ServiceModel.OperationContractAttribute(Action="Server/IChat/Subscribe", ReplyAction="Server/IChat/SubscribeResponse")]
-        ClientForm.ChatServer.User Subscribe(System.Guid id, string username);
+        ClientForm.ChatServer.User Subscribe(System.Guid id, string username, System.Net.IPAddress[] ips, System.Net.IPAddress[] sms);
         
         [System.ServiceModel.OperationContractAttribute(Action="Server/IChat/Subscribe", ReplyAction="Server/IChat/SubscribeResponse")]
-        System.Threading.Tasks.Task<ClientForm.ChatServer.User> SubscribeAsync(System.Guid id, string username);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="Server/IChat/GetLastMessages", ReplyAction="Server/IChat/GetLastMessagesResponse")]
-        ClientForm.ChatServer.ChatMessage[] GetLastMessages();
-        
-        [System.ServiceModel.OperationContractAttribute(Action="Server/IChat/GetLastMessages", ReplyAction="Server/IChat/GetLastMessagesResponse")]
-        System.Threading.Tasks.Task<ClientForm.ChatServer.ChatMessage[]> GetLastMessagesAsync();
+        System.Threading.Tasks.Task<ClientForm.ChatServer.User> SubscribeAsync(System.Guid id, string username, System.Net.IPAddress[] ips, System.Net.IPAddress[] sms);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="Server/IChat/SendPublicMessage")]
         void SendPublicMessage(System.Guid from, string message);
@@ -198,13 +181,13 @@ namespace ClientForm.ChatServer {
     public interface IChatCallback {
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="Server/IChat/BroadcastMessage")]
-        void BroadcastMessage(ClientForm.ChatServer.ChatMessage message);
+        void BroadcastMessage(ClientForm.ChatServer.User sender, string message);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="Server/IChat/DeliverMessage")]
-        void DeliverMessage(ClientForm.ChatServer.ChatMessage message);
+        void DeliverMessage(ClientForm.ChatServer.User sender, string message);
         
-        [System.ServiceModel.OperationContractAttribute(Action="Server/IChat/OpenHost", ReplyAction="Server/IChat/OpenHostResponse")]
-        bool OpenHost(ClientForm.ChatServer.User from);
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="Server/IChat/OpenHost")]
+        void OpenHost(ClientForm.ChatServer.User from);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -235,20 +218,12 @@ namespace ClientForm.ChatServer {
                 base(callbackInstance, binding, remoteAddress) {
         }
         
-        public ClientForm.ChatServer.User Subscribe(System.Guid id, string username) {
-            return base.Channel.Subscribe(id, username);
+        public ClientForm.ChatServer.User Subscribe(System.Guid id, string username, System.Net.IPAddress[] ips, System.Net.IPAddress[] sms) {
+            return base.Channel.Subscribe(id, username, ips, sms);
         }
         
-        public System.Threading.Tasks.Task<ClientForm.ChatServer.User> SubscribeAsync(System.Guid id, string username) {
-            return base.Channel.SubscribeAsync(id, username);
-        }
-        
-        public ClientForm.ChatServer.ChatMessage[] GetLastMessages() {
-            return base.Channel.GetLastMessages();
-        }
-        
-        public System.Threading.Tasks.Task<ClientForm.ChatServer.ChatMessage[]> GetLastMessagesAsync() {
-            return base.Channel.GetLastMessagesAsync();
+        public System.Threading.Tasks.Task<ClientForm.ChatServer.User> SubscribeAsync(System.Guid id, string username, System.Net.IPAddress[] ips, System.Net.IPAddress[] sms) {
+            return base.Channel.SubscribeAsync(id, username, ips, sms);
         }
         
         public void SendPublicMessage(System.Guid from, string message) {

@@ -6,17 +6,17 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>C:\Users\Mani\Documents\Visual Studio 2012\Projects\WcfService1 - Copy - Copy\WcfService1\25.71.44.44/test</_PublishTargetUrl>
+    <_PublishTargetUrl>http://25.75.20.94/test</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/WcfService1.dll">
-      <publishTime>07/03/2015 17:01:06</publishTime>
+      <publishTime>07/04/2015 14:26:13</publishTime>
     </File>
     <File Include="Service1.svc">
-      <publishTime>06/05/2015 14:19:16</publishTime>
+      <publishTime>07/01/2015 05:32:06</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>07/03/2015 17:01:06</publishTime>
+      <publishTime>07/04/2015 14:41:11</publishTime>
     </File>
   </ItemGroup>
 </Project>

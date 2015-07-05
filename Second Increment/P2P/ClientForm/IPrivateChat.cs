@@ -48,6 +48,9 @@ namespace ClientForm
         public IPAddress IP { get; set; }
 
         [DataMember]
+        public IPAddress subnetMask { get; set; }
+
+        [DataMember]
         public int Port { get; set; }
 
         [DataMember]

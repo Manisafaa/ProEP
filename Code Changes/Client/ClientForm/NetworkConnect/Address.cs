@@ -11,7 +11,7 @@ namespace NetworkConnect
 {
     public class Address
     {
-        public static List<IPAddress> GetAllIPs()
+        public static IPAddress[] GetAllIPs()
         {
             IPHostEntry host;
             host = Dns.GetHostEntry(Dns.GetHostName());
@@ -26,7 +26,11 @@ namespace NetworkConnect
                 }
             }
 
-            return IPs;
+            IPAddress[] ips = new IPAddress[(IPs.Count)];
+            for (int i = 0; i < ips.Length; ++i)
+                ips[i] = IPs[i];
+
+            return ips;
         }
 
 
@@ -49,14 +53,18 @@ namespace NetworkConnect
         }
 
 
-        public static List<IPAddress> GetAllSubnetMasks(List<IPAddress> IPs)
+        public static IPAddress[] GetAllSubnetMasks(IPAddress[] IPs)
         {
             List<IPAddress> subnetMasks = new List<IPAddress>();
 
             foreach (var ip in IPs)
                 subnetMasks.Add(GetSubnetMask(ip));
 
-            return subnetMasks;
+            IPAddress[] ips = new IPAddress[(subnetMasks.Count)];
+            for (int i = 0; i < ips.Length; ++i)
+                ips[i] = subnetMasks[i];
+
+            return ips;
         }
 
 
@@ -72,15 +80,15 @@ namespace NetworkConnect
         }
 
 
-        public static IPAddress GetSameSubnetIP(List<IPAddress> fromIPs, List<IPAddress> fromSMs, List<IPAddress> toIPs, List<IPAddress> toSMs)
+        public static IPAddress GetSameSubnetIP(IPAddress[] fromIPs, IPAddress[] fromSMs, IPAddress[] toIPs, IPAddress[] toSMs)
         {
-            for (int i = 0; i < fromIPs.Count && i < fromSMs.Count; ++i)
+            for (int i = 0; i < fromIPs.Count() && i < fromSMs.Count(); ++i)
             {
-                for (int j = 0; j < toIPs.Count && j < toSMs.Count; ++j)
+                for (int j = 0; j < toIPs.Count() && j < toSMs.Count(); ++j)
                 {
-                    bool isSubnetMaskEqual = (fromSMs[i] == toSMs[j]);
-                    bool isBroadcastAddressEqual = (GetBroadcastAddress(fromIPs[i], fromSMs[i]) == GetBroadcastAddress(toIPs[j], toSMs[j]));
-                    bool isIPDifferent = (fromIPs[i] != toIPs[j]);
+                    bool isSubnetMaskEqual = (fromSMs[i].ToString() == toSMs[j].ToString());
+                    bool isBroadcastAddressEqual = (GetBroadcastAddress(fromIPs[i], fromSMs[i]).ToString() == GetBroadcastAddress(toIPs[j], toSMs[j]).ToString());
+                    bool isIPDifferent = (fromIPs[i].ToString() != toIPs[j].ToString());
 
                     if (isSubnetMaskEqual && isBroadcastAddressEqual && isIPDifferent)
                         return toIPs[i];

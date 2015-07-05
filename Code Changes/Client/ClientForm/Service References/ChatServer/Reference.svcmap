@@ -19,10 +19,17 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://localhost:1305/Service1.svc?singleWsdl" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://25.71.44.44/test/Service1.svc?wsdl" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="Service12.wsdl" MetadataType="Wsdl" ID="51497992-2b9e-4b38-b6ed-93b688921e3a" SourceId="1" SourceUrl="http://localhost:1305/Service1.svc?singleWsdl" />
+    <MetadataFile FileName="Service1.xsd" MetadataType="Schema" ID="1f5f2380-caea-4e78-8459-ce1799892fca" SourceId="1" SourceUrl="http://25.71.44.44/test/Service1.svc?xsd=xsd4" />
+    <MetadataFile FileName="Service11.xsd" MetadataType="Schema" ID="3be90dda-b16e-4748-955f-5a4e7668dc49" SourceId="1" SourceUrl="http://25.71.44.44/test/Service1.svc?xsd=xsd5" />
+    <MetadataFile FileName="Service1.wsdl" MetadataType="Wsdl" ID="bc1b10ea-171d-40c5-95bc-86343ed5195b" SourceId="1" SourceUrl="http://25.71.44.44/test/Service1.svc?wsdl=wsdl0" />
+    <MetadataFile FileName="Service12.xsd" MetadataType="Schema" ID="3bd5c156-2ec3-4505-85ac-1773606c890a" SourceId="1" SourceUrl="http://25.71.44.44/test/Service1.svc?xsd=xsd0" />
+    <MetadataFile FileName="Service13.xsd" MetadataType="Schema" ID="24157795-fc1f-4eb4-91ad-ba6fdfcc7ad1" SourceId="1" SourceUrl="http://25.71.44.44/test/Service1.svc?xsd=xsd1" />
+    <MetadataFile FileName="Service14.xsd" MetadataType="Schema" ID="e1cfc16d-10f3-4730-b5ba-2137b65afa58" SourceId="1" SourceUrl="http://25.71.44.44/test/Service1.svc?xsd=xsd2" />
+    <MetadataFile FileName="Service15.xsd" MetadataType="Schema" ID="edd27032-7fc2-4061-a5f7-34594468fd12" SourceId="1" SourceUrl="http://25.71.44.44/test/Service1.svc?xsd=xsd3" />
+    <MetadataFile FileName="Service11.wsdl" MetadataType="Wsdl" ID="14b1a0b8-90ed-4756-be67-5321106def9a" SourceId="1" SourceUrl="http://25.71.44.44/test/Service1.svc?wsdl" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

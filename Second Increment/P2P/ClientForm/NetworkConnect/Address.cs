@@ -21,9 +21,7 @@ namespace NetworkConnect
             foreach (IPAddress ip in host.AddressList)
             {
                 if (ip.AddressFamily.ToString() == "InterNetwork")
-                {
                     IPs.Add(ip);
-                }
             }
 
             return IPs;
@@ -61,18 +59,20 @@ namespace NetworkConnect
         }
 
 
-        public static int GetCorrectIPIndex(List<IPAddress> from, IPAddress to)
+        public static int GetCorrectIPIndex(List<IPAddress> fromIPs, IPAddress toIP)
         {
-            byte[] byteTo = to.GetAddressBytes();
-
-            for (int i = 0; i < from.Count; ++i)
+            for (int i = 0; i < fromIPs.Count(); ++i)
             {
-                byte[] byteFrom = from[i].GetAddressBytes();
-                if (byteFrom[0] == byteTo[0] && byteFrom[1] == byteTo[1] && byteFrom[2] == byteTo[2] && byteFrom[3] != byteTo[3])
+                IPAddress subnetMask = GetSubnetMask(fromIPs[i]);
+
+                bool isBroadcastAddressEqual = (GetBroadcastAddress(fromIPs[i], subnetMask).ToString() == GetBroadcastAddress(toIP, subnetMask).ToString());
+                bool isIPDifferent = (fromIPs[i].ToString() != toIP.ToString());
+
+                if (isBroadcastAddressEqual && isIPDifferent)
                     return i;
             }
 
-            return -1;
+            throw new ArgumentException(string.Format("Can't find IP in same subnet of '{0}'", toIP));
         }
     }
 }

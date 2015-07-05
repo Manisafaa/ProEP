@@ -7,3 +7,7 @@ C:\Users\Gustavo\Desktop\ProEP\First Increment\ClientForm\ClientForm\NetworkConn
 C:\Users\Gustavo\Desktop\ProEP\First Increment\ClientForm\ClientForm\NetworkConnect\bin\Release\NetworkConnect.pdb
 C:\Users\Gustavo\Desktop\ProEP\First Increment\ClientForm\ClientForm\NetworkConnect\obj\Release\NetworkConnect.dll
 C:\Users\Gustavo\Desktop\ProEP\First Increment\ClientForm\ClientForm\NetworkConnect\obj\Release\NetworkConnect.pdb
+C:\Users\Gustavo\Desktop\ProEP\Code Changes\Client\ClientForm\NetworkConnect\bin\Release\NetworkConnect.dll
+C:\Users\Gustavo\Desktop\ProEP\Code Changes\Client\ClientForm\NetworkConnect\bin\Release\NetworkConnect.pdb
+C:\Users\Gustavo\Desktop\ProEP\Code Changes\Client\ClientForm\NetworkConnect\obj\Release\NetworkConnect.dll
+C:\Users\Gustavo\Desktop\ProEP\Code Changes\Client\ClientForm\NetworkConnect\obj\Release\NetworkConnect.pdb

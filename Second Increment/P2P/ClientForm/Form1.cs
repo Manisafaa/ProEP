@@ -23,6 +23,7 @@ namespace ClientForm
     public partial class Chat : Form, IPrivateChat
     {
         List<IPAddress> IPs = new List<IPAddress>();
+        List<IPAddress> subnetMasks = new List<IPAddress>();
         int basePort = 14242;
 
         User self;
@@ -153,14 +154,13 @@ namespace ClientForm
             IPrivateChat testChannel = channelFactory.CreateChannel();
 
             // Completing User
-            int IPIndex = NetworkConnect.Address.GetCorrectIPIndex(IPs, endpoint.Address);
-            if (IPIndex >= 0)
-            {
+            try {
+                int IPIndex = NetworkConnect.Address.GetCorrectIPIndex(IPs, endpoint.Address);
                 self.IP = IPs[IPIndex];
                 self.Port = basePort + IPIndex;
                 self.lastStamp = DateTime.Now;
             }
-            else
+            catch
             {
                 return;
             }
@@ -209,14 +209,14 @@ namespace ClientForm
             conversations.Add(new List<string>());
 
             // Completing User
-            int IPIndex = NetworkConnect.Address.GetCorrectIPIndex(IPs, user.IP);
-            if (IPIndex >= 0)
+            try
             {
+                int IPIndex = NetworkConnect.Address.GetCorrectIPIndex(IPs, user.IP);
                 self.IP = IPs[IPIndex];
                 self.Port = basePort + IPIndex;
                 self.lastStamp = DateTime.Now;
             }
-            else
+            catch
             {
                 return;
             }
