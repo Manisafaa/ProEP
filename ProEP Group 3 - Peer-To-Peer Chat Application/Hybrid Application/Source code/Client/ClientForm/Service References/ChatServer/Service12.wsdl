@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="Server" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Service1" targetNamespace="Server" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="WSDualHttpBinding_IChat_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <wsrm:RMAssertion xmlns:wsrm="http://schemas.xmlsoap.org/ws/2005/02/rm/policy">
+          <wsrm:InactivityTimeout Milliseconds="600000" />
+          <wsrm:AcknowledgementInterval Milliseconds="200" />
+        </wsrm:RMAssertion>
+        <cdp:CompositeDuplex xmlns:cdp="http://schemas.microsoft.com/net/2006/06/duplex" />
+        <ow:OneWay xmlns:ow="http://schemas.microsoft.com/ws/2005/05/routing/policy" />
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xs:schema elementFormDefault="qualified" targetNamespace="Server" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xs:import namespace="http://schemas.datacontract.org/2004/07/ChatService" />
+      <xs:element name="Subscribe">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="id" type="q1:guid" />
+            <xs:element minOccurs="0" name="username" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SubscribeResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/ChatService" minOccurs="0" name="SubscribeResult" nillable="true" type="q2:User" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetLastMessages">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetLastMessagesResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/ChatService" minOccurs="0" name="GetLastMessagesResult" nillable="true" type="q3:ArrayOfChatMessage" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SendPublicMessage">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q4="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="from" type="q4:guid" />
+            <xs:element minOccurs="0" name="message" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ConnectWithUser">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q5="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="from" type="q5:guid" />
+            <xs:element xmlns:q6="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="to" type="q6:guid" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ConnectWithUserResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/ChatService" minOccurs="0" name="ConnectWithUserResult" nillable="true" type="q7:User" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SendPrivateMessage">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q8="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="from" type="q8:guid" />
+            <xs:element minOccurs="0" name="message" nillable="true" type="xs:string" />
+            <xs:element xmlns:q9="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="to" type="q9:guid" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Unsubscribe">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="BroadcastMessage">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/ChatService" minOccurs="0" name="message" nillable="true" type="q10:ChatMessage" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="DeliverMessage">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/ChatService" minOccurs="0" name="message" nillable="true" type="q11:ChatMessage" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="OpenHost">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/ChatService" minOccurs="0" name="from" nillable="true" type="q12:User" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="OpenHostResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="OpenHostResult" type="xs:boolean" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
+    <xs:schema xmlns:tns="http://schemas.microsoft.com/2003/10/Serialization/" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="anyType" nillable="true" type="xs:anyType" />
+      <xs:element name="anyURI" nillable="true" type="xs:anyURI" />
+      <xs:element name="base64Binary" nillable="true" type="xs:base64Binary" />
+      <xs:element name="boolean" nillable="true" type="xs:boolean" />
+      <xs:element name="byte" nillable="true" type="xs:byte" />
+      <xs:element name="dateTime" nillable="true" type="xs:dateTime" />
+      <xs:element name="decimal" nillable="true" type="xs:decimal" />
+      <xs:element name="double" nillable="true" type="xs:double" />
+      <xs:element name="float" nillable="true" type="xs:float" />
+      <xs:element name="int" nillable="true" type="xs:int" />
+      <xs:element name="long" nillable="true" type="xs:long" />
+      <xs:element name="QName" nillable="true" type="xs:QName" />
+      <xs:element name="short" nillable="true" type="xs:short" />
+      <xs:element name="string" nillable="true" type="xs:string" />
+      <xs:element name="unsignedByte" nillable="true" type="xs:unsignedByte" />
+      <xs:element name="unsignedInt" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="unsignedLong" nillable="true" type="xs:unsignedLong" />
+      <xs:element name="unsignedShort" nillable="true" type="xs:unsignedShort" />
+      <xs:element name="char" nillable="true" type="tns:char" />
+      <xs:simpleType name="char">
+        <xs:restriction base="xs:int" />
+      </xs:simpleType>
+      <xs:element name="duration" nillable="true" type="tns:duration" />
+      <xs:simpleType name="duration">
+        <xs:restriction base="xs:duration">
+          <xs:pattern value="\-?P(\d*D)?(T(\d*H)?(\d*M)?(\d*(\.\d*)?S)?)?" />
+          <xs:minInclusive value="-P10675199DT2H48M5.4775808S" />
+          <xs:maxInclusive value="P10675199DT2H48M5.4775807S" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="guid" nillable="true" type="tns:guid" />
+      <xs:simpleType name="guid">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="[\da-fA-F]{8}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{12}" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:attribute name="FactoryType" type="xs:QName" />
+      <xs:attribute name="Id" type="xs:ID" />
+      <xs:attribute name="Ref" type="xs:IDREF" />
+    </xs:schema>
+    <xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/ChatService" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/ChatService" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xs:complexType name="User">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="callback" nillable="true" type="xs:anyType" />
+          <xs:element minOccurs="0" name="id" type="ser:guid" />
+          <xs:element minOccurs="0" name="username" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="User" nillable="true" type="tns:User" />
+      <xs:complexType name="ArrayOfChatMessage">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="ChatMessage" nillable="true" type="tns:ChatMessage" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ArrayOfChatMessage" nillable="true" type="tns:ArrayOfChatMessage" />
+      <xs:complexType name="ChatMessage">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="text" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="user" nillable="true" type="tns:User" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ChatMessage" nillable="true" type="tns:ChatMessage" />
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="IChat_Subscribe_InputMessage">
+    <wsdl:part name="parameters" element="tns:Subscribe" />
+  </wsdl:message>
+  <wsdl:message name="IChat_Subscribe_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SubscribeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IChat_GetLastMessages_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetLastMessages" />
+  </wsdl:message>
+  <wsdl:message name="IChat_GetLastMessages_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetLastMessagesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IChat_SendPublicMessage_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendPublicMessage" />
+  </wsdl:message>
+  <wsdl:message name="IChat_ConnectWithUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConnectWithUser" />
+  </wsdl:message>
+  <wsdl:message name="IChat_ConnectWithUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConnectWithUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IChat_SendPrivateMessage_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendPrivateMessage" />
+  </wsdl:message>
+  <wsdl:message name="IChat_Unsubscribe_InputMessage">
+    <wsdl:part name="parameters" element="tns:Unsubscribe" />
+  </wsdl:message>
+  <wsdl:message name="IChat_BroadcastMessage_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:BroadcastMessage" />
+  </wsdl:message>
+  <wsdl:message name="IChat_DeliverMessage_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:DeliverMessage" />
+  </wsdl:message>
+  <wsdl:message name="IChat_OpenHost_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OpenHost" />
+  </wsdl:message>
+  <wsdl:message name="IChat_OpenHost_InputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OpenHostResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IChat">
+    <wsdl:operation name="Subscribe">
+      <wsdl:input wsaw:Action="Server/IChat/Subscribe" message="tns:IChat_Subscribe_InputMessage" />
+      <wsdl:output wsaw:Action="Server/IChat/SubscribeResponse" message="tns:IChat_Subscribe_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLastMessages">
+      <wsdl:input wsaw:Action="Server/IChat/GetLastMessages" message="tns:IChat_GetLastMessages_InputMessage" />
+      <wsdl:output wsaw:Action="Server/IChat/GetLastMessagesResponse" message="tns:IChat_GetLastMessages_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendPublicMessage">
+      <wsdl:input wsaw:Action="Server/IChat/SendPublicMessage" message="tns:IChat_SendPublicMessage_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ConnectWithUser">
+      <wsdl:input wsaw:Action="Server/IChat/ConnectWithUser" message="tns:IChat_ConnectWithUser_InputMessage" />
+      <wsdl:output wsaw:Action="Server/IChat/ConnectWithUserResponse" message="tns:IChat_ConnectWithUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendPrivateMessage">
+      <wsdl:input wsaw:Action="Server/IChat/SendPrivateMessage" message="tns:IChat_SendPrivateMessage_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Unsubscribe">
+      <wsdl:input wsaw:Action="Server/IChat/Unsubscribe" message="tns:IChat_Unsubscribe_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="BroadcastMessage">
+      <wsdl:output wsaw:Action="Server/IChat/BroadcastMessage" message="tns:IChat_BroadcastMessage_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeliverMessage">
+      <wsdl:output wsaw:Action="Server/IChat/DeliverMessage" message="tns:IChat_DeliverMessage_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OpenHost">
+      <wsdl:output wsaw:Action="Server/IChat/OpenHost" message="tns:IChat_OpenHost_OutputCallbackMessage" />
+      <wsdl:input wsaw:Action="Server/IChat/OpenHostResponse" message="tns:IChat_OpenHost_InputCallbackMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WSDualHttpBinding_IChat" type="tns:IChat">
+    <wsp:PolicyReference URI="#WSDualHttpBinding_IChat_policy" />
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Subscribe">
+      <soap12:operation soapAction="Server/IChat/Subscribe" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLastMessages">
+      <soap12:operation soapAction="Server/IChat/GetLastMessages" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendPublicMessage">
+      <soap12:operation soapAction="Server/IChat/SendPublicMessage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="ConnectWithUser">
+      <soap12:operation soapAction="Server/IChat/ConnectWithUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendPrivateMessage">
+      <soap12:operation soapAction="Server/IChat/SendPrivateMessage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="Unsubscribe">
+      <soap12:operation soapAction="Server/IChat/Unsubscribe" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="BroadcastMessage">
+      <soap12:operation soapAction="Server/IChat/BroadcastMessage" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeliverMessage">
+      <soap12:operation soapAction="Server/IChat/DeliverMessage" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OpenHost">
+      <soap12:operation soapAction="Server/IChat/OpenHost" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Service1">
+    <wsdl:port name="WSDualHttpBinding_IChat" binding="tns:WSDualHttpBinding_IChat">
+      <soap12:address location="http://localhost:1305/Service1.svc" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>http://localhost:1305/Service1.svc</wsa10:Address>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
